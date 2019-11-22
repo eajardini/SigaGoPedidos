@@ -1,0 +1,32 @@
+[Principal]
+modo = "Desenvolvimento"
+
+
+[BancoDeDados]
+
+    [BancoDeDados.Desenvolvimento]
+    SGBD      = "postgres"
+    Host      = "172.17.0.1"
+    User      = "postgres"
+    Port      = "5432"
+    Ssl       = "false"
+    Database  = "sigagopedidosdev"
+    Password  = "postdba"
+
+    [BancoDeDados.Teste]
+    SGBD      = "postgres"
+    Host      = "172.17.0.1"
+    User      = "postgres"
+    Port      = "5432"
+    Ssl       = "false"
+    Database  = "sigagopedidosteste"
+    Password  = "postdba"
+
+    [BancoDeDados.Prod]
+    SGBD      = "postgres"
+    Host      = "172.17.0.1"
+    User      = "postgres"
+    Port      = "5432"
+    Ssl       = "false"
+    Database  = "sigagopedidosprod"
+    Password  = "postdba"

@@ -1,0 +1,46 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="C20635D0-EA9A-3159-B08C-F64BD19EC783" name="acl.group">
+<createdBy>eajardini</createdBy>
+<createdTime>2019-07-13 14:05:10 UTC</createdTime>
+<ownerDesignName>sigagopedidos</ownerDesignName>
+<ordsAlias>table_2</ordsAlias>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="groupID" id="FD61FE1D-5312-891A-AF4C-91FDEF6E4109">
+<createdBy>eajardini</createdBy>
+<createdTime>2019-07-13 14:05:40 UTC</createdTime>
+<ownerDesignName>sigagopedidos</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="descricaogrupo" id="F5B40722-68CE-D5F1-8AD6-976333590112">
+<createdBy>eajardini</createdBy>
+<createdTime>2019-11-22 00:42:45 UTC</createdTime>
+<ownerDesignName>sigagopedidos</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>30</dataTypeSize>
+<ownDataTypeParameters>30,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="D8E39A35-B360-0C97-87F3-F44290A1CDD2" name="PK_group">
+<createdBy>eajardini</createdBy>
+<createdTime>2019-07-13 14:05:40 UTC</createdTime>
+<ownerDesignName>sigagopedidos</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="FD61FE1D-5312-891A-AF4C-91FDEF6E4109"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

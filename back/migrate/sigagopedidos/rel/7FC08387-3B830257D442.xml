@@ -1,0 +1,8 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<relationalModel class="oracle.dbtools.crest.model.design.relational.RelationalDesign" name="ACL" id="7FC08387-8A50-936F-E9C8-3B830257D442" mainViewID="3ED595A4-0EFA-962B-BDE9-0786BFF65F43">
+<createdBy>eajardini</createdBy>
+<createdTime>2019-07-13 13:54:11 UTC</createdTime>
+<ownerDesignName>acl</ownerDesignName>
+<shouldBeOpen>true</shouldBeOpen>
+<selectedRDBMSSite>D9582E4E-79E2-319F-387A-2ED963CB9D32</selectedRDBMSSite>
+</relationalModel>

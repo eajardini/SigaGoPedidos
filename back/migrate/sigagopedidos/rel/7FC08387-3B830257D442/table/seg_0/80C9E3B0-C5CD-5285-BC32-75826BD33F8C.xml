@@ -1,0 +1,83 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="80C9E3B0-C5CD-5285-BC32-75826BD33F8C" name="acl.usergroups">
+<createdBy>eajardini</createdBy>
+<createdTime>2019-11-22 00:43:53 UTC</createdTime>
+<ownerDesignName>sigagopedidos</ownerDesignName>
+<ordsAlias>table_3</ordsAlias>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="usergroupsID" id="D724B4DC-CB59-AA2C-F264-A70EDE866303">
+<createdBy>eajardini</createdBy>
+<createdTime>2019-11-22 00:44:56 UTC</createdTime>
+<ownerDesignName>sigagopedidos</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT027</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="userID" id="1BB516D3-7940-8444-D776-8CE8F7724A9A">
+<createdBy>eajardini</createdBy>
+<createdTime>2019-11-22 00:45:16 UTC</createdTime>
+<ownerDesignName>sigagopedidos</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT027</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="CBF34919-A0CA-7CE3-A44C-E35B90D4DF73" referredColumn="691ED6F5-1A75-107D-E638-F64725BA36D3"/>
+</associations>
+</Column>
+<Column name="groupID" id="C9C12784-D942-BCD6-0D5D-8DB1BCD343A5">
+<createdBy>eajardini</createdBy>
+<createdTime>2019-11-22 00:45:27 UTC</createdTime>
+<ownerDesignName>sigagopedidos</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="EF33DE8B-7FEB-C689-C786-9EBB358B5F8C" referredColumn="FD61FE1D-5312-891A-AF4C-91FDEF6E4109"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="56E2131F-C91E-D3A7-A0CF-53F01F6981D0" name="PK_acl.usergroups">
+<createdBy>eajardini</createdBy>
+<createdTime>2019-11-22 00:44:56 UTC</createdTime>
+<ownerDesignName>sigagopedidos</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="D724B4DC-CB59-AA2C-F264-A70EDE866303"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="FDD601E4-E76D-F26C-1A9B-2962E0894CD3" name="FK_acl.usergroups_acl.user">
+<createdBy>eajardini</createdBy>
+<createdTime>2019-11-22 00:45:16 UTC</createdTime>
+<ownerDesignName>sigagopedidos</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="1BB516D3-7940-8444-D776-8CE8F7724A9A"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="F6944798-1D90-4C66-B294-D0046F56413F" name="FK_acl.usergroups_acl.group">
+<createdBy>eajardini</createdBy>
+<createdTime>2019-11-22 00:45:27 UTC</createdTime>
+<ownerDesignName>sigagopedidos</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="C9C12784-D942-BCD6-0D5D-8DB1BCD343A5"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

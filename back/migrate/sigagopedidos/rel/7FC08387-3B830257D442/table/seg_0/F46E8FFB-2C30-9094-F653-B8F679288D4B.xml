@@ -1,0 +1,94 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="F46E8FFB-2C30-9094-F653-B8F679288D4B" name="acl.user">
+<createdBy>eajardini</createdBy>
+<createdTime>2019-07-13 13:54:30 UTC</createdTime>
+<ownerDesignName>sigagopedidos</ownerDesignName>
+<ordsAlias>table_1</ordsAlias>
+<afterCreate>create sequence seq_acluser;&lt;br/&gt;&lt;br/&gt;insert into acluser&lt;br/&gt;values (nextval(&apos;seq_acluser&apos;), &apos;internal&apos;, &apos;Intern@l&apos;, current_date, null, &apos;n&apos;);</afterCreate>
+<shouldGeneratescript>true</shouldGeneratescript>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="userID" id="691ED6F5-1A75-107D-E638-F64725BA36D3">
+<createdBy>eajardini</createdBy>
+<createdTime>2019-07-13 13:57:09 UTC</createdTime>
+<ownerDesignName>sigagopedidos</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT027</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="login" id="08C6BEB0-6DEF-3ACB-4ED7-128E48AEF390">
+<createdBy>eajardini</createdBy>
+<createdTime>2019-07-13 13:59:04 UTC</createdTime>
+<ownerDesignName>sigagopedidos</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20</dataTypeSize>
+<ownDataTypeParameters>20,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="password" id="5A5A8BD7-E09C-7713-52AC-72EADFC11D4D">
+<createdBy>eajardini</createdBy>
+<createdTime>2019-07-13 13:59:33 UTC</createdTime>
+<ownerDesignName>sigagopedidos</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>50</dataTypeSize>
+<ownDataTypeParameters>50,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="dataCriacao" id="DD856558-9325-FD08-1A0C-BE253136EBBA">
+<createdBy>eajardini</createdBy>
+<createdTime>2019-07-13 13:59:56 UTC</createdTime>
+<ownerDesignName>sigagopedidos</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="dataValidade" id="A1436F7C-226E-1393-BD15-5891FB297AC3">
+<createdBy>eajardini</createdBy>
+<createdTime>2019-07-13 14:00:55 UTC</createdTime>
+<ownerDesignName>sigagopedidos</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="userBloqueado" id="AB4EAECB-0A5B-1F5F-0ED0-A468178257CC">
+<createdBy>eajardini</createdBy>
+<createdTime>2019-07-13 14:02:00 UTC</createdTime>
+<commentInRDBMS>S -&gt; Usuário Bloquado&lt;br/&gt;N -&gt; Usuário não Bloquedo</commentInRDBMS>
+<ownerDesignName>sigagopedidos</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT025</logicalDatatype>
+<dataTypeSize>1</dataTypeSize>
+<ownDataTypeParameters>1,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="59E2893E-5FBC-4A90-F79F-A56BF0CD088E" name="user_PK">
+<createdBy>eajardini</createdBy>
+<createdTime>2019-07-13 13:57:09 UTC</createdTime>
+<ownerDesignName>sigagopedidos</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="691ED6F5-1A75-107D-E638-F64725BA36D3"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>
