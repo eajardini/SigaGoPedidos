@@ -41,6 +41,7 @@ type bancoDeDadosConfig struct {
 var (
 	SIGAConfig    SIGAGoPedidosConfig
 	modo          string
+	sgbd          string
 	stringConexao string
 )
 
@@ -50,6 +51,7 @@ func setaStringDeConexao() {
 		log.Fatal(err)
 	}
 	modo = SIGAConfig.Principal.Modo
+	sgbd = SIGAConfig.BancoDeDados[modo].SGBD
 	stringConexao = fmt.Sprintf("user=%s dbname=%s host=%s sslmode=%s",
 		SIGAConfig.BancoDeDados[modo].User, SIGAConfig.BancoDeDados[modo].Database,
 		SIGAConfig.BancoDeDados[modo].Host, SIGAConfig.BancoDeDados[modo].Ssl)
@@ -57,11 +59,16 @@ func setaStringDeConexao() {
 	// fmt.Println("Host:", SIGAConfig.BancoDeDados[SIGAConfig.Principal.Modo].Database)
 }
 
+// GetStringConexao : zz
+func GetStringConexao() string {
+	return stringConexao
+}
+
 //IniciaConexao : zz
 func (bdcon *BDCon) IniciaConexao() {
 	setaStringDeConexao()
 	// db, err := sqlx.Connect("postgres", "user=postgres dbname=crudbd host=172.17.0.1  sslmode=disable")
-	db, err := sqlx.Connect(modo, stringConexao)
+	db, err := sqlx.Connect(sgbd, stringConexao)
 	if err != nil {
 		log.Fatal("[bancodados, Inicia] Erro ao Conectar ao Banco de Dados!!")
 	}

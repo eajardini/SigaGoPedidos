@@ -1,5 +1,5 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
-<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="C20635D0-EA9A-3159-B08C-F64BD19EC783" name="acl.group">
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="C20635D0-EA9A-3159-B08C-F64BD19EC783" name="acl_group">
 <createdBy>eajardini</createdBy>
 <createdTime>2019-07-13 14:05:10 UTC</createdTime>
 <ownerDesignName>sigagopedidos</ownerDesignName>
@@ -18,6 +18,17 @@
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
+<Column name="codigogrupo" id="C9ABA98E-1470-B745-B2AF-AF24C6DCAB51">
+<createdBy>eajardini</createdBy>
+<createdTime>2019-11-23 13:44:57 UTC</createdTime>
+<ownerDesignName>sigagopedidos</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>10</dataTypeSize>
+<ownDataTypeParameters>10,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
 <Column name="descricaogrupo" id="F5B40722-68CE-D5F1-8AD6-976333590112">
 <createdBy>eajardini</createdBy>
 <createdTime>2019-11-22 00:42:45 UTC</createdTime>
@@ -25,8 +36,8 @@
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
 <logicalDatatype>LOGDT024</logicalDatatype>
-<dataTypeSize>30</dataTypeSize>
-<ownDataTypeParameters>30,,</ownDataTypeParameters>
+<dataTypeSize>50</dataTypeSize>
+<ownDataTypeParameters>50,,</ownDataTypeParameters>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
 </columns>

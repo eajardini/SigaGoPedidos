@@ -52,13 +52,11 @@ export default {
         },
         {
           label: "Vendas",
-          icon: "pi pi-fw pi-search",
-          ativo: true,
+          icon: "pi pi-fw pi-search",          
           items: [
             {
               label: "Pedidos",
-              icon: "pi pi-fw pi-clone",
-              ativo: true,
+              icon: "pi pi-fw pi-clone",              
               items: [
                 {
                   label: "Fazer Pedido",
@@ -226,8 +224,7 @@ export default {
       this.menu = [
         {
           label: "Compras",
-          icon: "pi pi-fw pi-search",
-          disabled: true,
+          icon: "pi pi-fw pi-search",          
           items: [
             {
               label: "Produtos",
