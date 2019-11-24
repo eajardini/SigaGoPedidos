@@ -4,8 +4,8 @@ drop table if exists acl_user;
 drop table if exists acl_group;
 drop table if exists aversao;
 drop sequence if exists seq_acluser;
-drop sequence if exists seq_aclusergroups
-drop sequence if exists seq_group
+drop sequence if exists seq_aclusergroups;
+drop sequence if exists seq_group;
 
 */
 
@@ -87,12 +87,4 @@ values (nextval('seq_aclusergroups'),
           WHERE codigogrupo = 'admin'
          ));
 
-
-
-
 commit;
-
-
-
-
-

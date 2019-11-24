@@ -1,10 +1,14 @@
 package main
 
 import (
-	"fmt"
+	"io/ioutil"
 	"log"
 
-	"github.com/BurntSushi/toml"
+	bancoDeDados "github.com/eajardini/SigaGoPedidos/back/bancodedados"
+)
+
+var (
+	bd bancoDeDados.BDCon
 )
 
 //SIGAGoPedidosConfig :zz
@@ -18,8 +22,8 @@ type principalConfig struct {
 	Modo string
 }
 
-//BancoDeDados : zz
 type bancoDeDadosConfig struct {
+	SGBD     string
 	Host     string
 	User     string
 	Port     string
@@ -28,24 +32,24 @@ type bancoDeDadosConfig struct {
 	Password string
 }
 
-func main() {
-	var SIGAConfig SIGAGoPedidosConfig
-
-	if _, err := toml.DecodeFile("../config/ConfigBancoDados.toml", &SIGAConfig); err != nil {
-		fmt.Println("Não deu certo")
+// LeArquivoScriptSQL :zz
+func LeArquivoScriptSQL() []byte {
+	sqlArquivo, err := ioutil.ReadFile("scriptBaseDadosSigaGoPedidos.sql")
+	if err != nil {
 		log.Fatal(err)
 	}
 
-	fmt.Println("Modo:", SIGAConfig.Principal.Modo)
-	for serverName, server := range SIGAConfig.BancoDeDados {
-		fmt.Printf("Server: %s (%s, %s)\n", serverName, server.Host, server.Database)
-	}
+	return sqlArquivo
+}
 
-	fmt.Println("Host:", SIGAConfig.BancoDeDados[SIGAConfig.Principal.Modo].Host)
-	fmt.Println("Host:", SIGAConfig.BancoDeDados[SIGAConfig.Principal.Modo].Database)
+func main() {
+	bd.IniciaConexao()
 
-	fmt.Println("Host:", SIGAConfig.BancoDeDados["Teste"].Host)
-	fmt.Println("Host:", SIGAConfig.BancoDeDados["Teste"].Database)
+	schemaSQL := LeArquivoScriptSQL()
+
+	bd.AbreConexao()
+	bd.ExecutaMigrate(schemaSQL)
+	bd.FechaConexao()
 
 }
 

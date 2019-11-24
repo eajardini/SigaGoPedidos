@@ -85,23 +85,34 @@ func (bdcon *BDCon) IniciaConexao() {
 }
 
 //AbreConexao :zz
-func (bdcon *BDCon) AbreConexao() {
-	db, err := sqlx.Connect("postgres", "user=postgres dbname=crudbd host=172.17.0.1  sslmode=disable")
+func (bdcon *BDCon) AbreConexao() error {
+	db, err := sqlx.Connect(sgbd, stringConexao)
 	if err != nil {
 		log.Fatalln(err)
 	}
-
 	//seta a variavel BD para fazer as consultas SQL
 	bdcon.BD = db
+
+	return err
 
 }
 
 //FechaConexao :zz
-func (bdcon *BDCon) FechaConexao() {
-	bdcon.BD.Close()
+func (bdcon *BDCon) FechaConexao() error {
+	err := bdcon.BD.Close()
+	return err
 }
 
 //Insert : faz o insert no Banco de Dados
 func (bdcon *BDCon) Insert(sgbd string, sqlinsert interface{}) {
 	fmt.Println(sqlinsert)
+}
+
+// ExecutaMigrate : zz
+func (bdcon *BDCon) ExecutaMigrate(schemaSQL []byte) {
+	_, err := bdcon.BD.Exec(string(schemaSQL))
+	if err != nil {
+		log.Println("[bancodedados:ExecutaMigrate] Erro ao realizar o Migrate")
+		log.Fatalln(err)
+	}
 }
