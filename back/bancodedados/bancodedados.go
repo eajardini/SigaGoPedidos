@@ -65,7 +65,7 @@ func GetStringConexao() string {
 }
 
 //IniciaConexao : zz
-func (bdcon *BDCon) IniciaConexao() {
+func (bdcon *BDCon) IniciaConexao() error {
 	setaStringDeConexao()
 	// db, err := sqlx.Connect("postgres", "user=postgres dbname=crudbd host=172.17.0.1  sslmode=disable")
 	db, err := sqlx.Connect(sgbd, stringConexao)
@@ -82,6 +82,7 @@ func (bdcon *BDCon) IniciaConexao() {
 	}
 
 	db.Close()
+	return err
 }
 
 //AbreConexao :zz
