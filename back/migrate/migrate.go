@@ -57,12 +57,13 @@ func main() {
 	bd.IniciaConexao()
 
 	schemaSQL := LeArquivoScriptSQL()
-
 	bd.AbreConexao()
 	bd.ExecutaMigrate(schemaSQL)
+	bd.FechaConexao()
 
-	schemaSQL = LeArquivoScriptSQL()
-
+	schemaSQL = LeArquivoMenuSQL()
+	bd.AbreConexao()
+	bd.ExecutaMigrate(schemaSQL)
 	bd.FechaConexao()
 
 }

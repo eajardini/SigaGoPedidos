@@ -34,7 +34,7 @@ func IniciaServidor() {
 	bancodados.ConfiguraStringDeConexao("./config/ConfigBancoDados.toml")
 	bancodados.IniciaConexao()
 
-	r.GET("/", menu.Principal)
+	r.GET("/", menu.MenuPrincipal)
 
 	// cli := r.Group("/cliente")
 	// {

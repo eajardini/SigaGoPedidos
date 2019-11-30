@@ -1,122 +1,86 @@
 package menu
 
 import (
+	"encoding/json"
+	"fmt"
+
+	bancodedados "github.com/eajardini/SigaGoPedidos/back/bancodedados"
+	modelmenu "github.com/eajardini/SigaGoPedidos/back/controler/menu/model"
 	"github.com/gin-gonic/gin"
 )
 
-// {
-// 	"label": "Financeiro",
-// 	"items":[
-// 			{ "label": "Clientes",
-// 				"items" :[
-// 										 {"label": "Cadastro de Clientes"}
-// 						 ]
-// 								}
-// 							]
-// }
+var (
+	mMenu modelmenu.ModelMenu
+	bd    bancodedados.BDCon
+)
 
-// type MenuItem struct {
-// 	Label string `json:"label"`
-// 	Items struct {
-// 		Label string `json:"label"`
-// 		Items struct {
-// 			Label string `json:"label"`
-// 		} `json:"items"`
-// 	} `json:"items"`
-// }
+//SelectItensDoMenu : zz
+func SelectItensDoMenu() []modelmenu.ItensDaTabelaMenu {
 
-// type MenuItem struct {
-// 	Menu ItemsNivel1 `json:",omitempty"`
-// }
+	var (
+		sql               string
+		itensDaTabelaMenu []modelmenu.ItensDaTabelaMenu
+	)
 
-type ItemsNivel1 struct {
-	Label string        `json:"label"`
-	Items []ItemsNivel2 `json:"items"`
+	sql = `
+					WITH RECURSIVE submenus AS (
+						SELECT  menuID, descricao, nivel, codigoMenuSuperiorID, CAST(descricao As varchar(1000)) As Itens_Menu
+						FROM    menu  
+						where codigoMenuSuperiorID is null
+						UNION
+						SELECT  m.menuID, m.descricao, m.nivel, m.codigoMenuSuperiorID, CAST(s.Itens_Menu || '->' || m.descricao As varchar(1000)) As Itens_Menu
+						FROM menu m
+						INNER JOIN submenus s ON s.menuID = m.codigoMenuSuperiorID
+					) 
+					SELECT  descricao,  nivel
+						FROM submenus
+					ORDER BY Itens_Menu		
+				`
+	bd.AbreConexao()
+	defer bd.FechaConexao()
+
+	bd.BD.Select(&itensDaTabelaMenu, sql)
+
+	return itensDaTabelaMenu
 }
 
-type ItemsNivel2 struct {
-	Label string        `json:"label"`
-	Items []ItemsNivel3 `json:"items"`
-}
-type ItemsNivel3 struct {
-	Label string `json:"label"`
-}
+// MontaEstruturaDoMenu : a partir dos itens inseridos na estrutura ItensDaTabelaMenu
+//	eu monto um
+func MontaEstruturaDoMenu() string {
 
-var menu []ItemsNivel1
+	var (
+		itensDaTabelaMenu []modelmenu.ItensDaTabelaMenu
+	)
 
-// Principal : zz
-func Principal(c *gin.Context) {
+	itensDaTabelaMenu = SelectItensDoMenu()
 
-	// https://stackoverflow.com/questions/42802136/golang-error-missing-type-in-composite-literal
+	for i, itensMenu := range itensDaTabelaMenu {
+		fmt.Println("i, itensMenu, nível", i, " ", itensMenu.Descricao, " ", itensMenu.Nivel)
 
-	// https://stackoverflow.com/questions/38965693/missing-type-in-composite-literal-error
-	// menu = []MenuItem{
-	// 	MenuItem{
-	// 		"label": "Financeiro",
-	// 		Items: []ItemsNivel2{
-	// 			{
-	// 				"label": "Contas a Pagar",
-	// 				Items: []ItemsNivel3{
-	// 					{"label": "Cadastro"},
-	// 					{"label": "Relatório"},
-	// 					{"label": "Impressão"},
-	// 				},
-	// 			},
-	// 			{
-	// 				"label": "Contas a Receber",
-	// 				Items: []ItemsNivel3{
-	// 					{"label": "Cadastro"},
-	// 					{"label": "Relatório"},
-	// 					{"label": "Configuração"},
-	// 				},
-	// 			},
-	// 		},
-	// 	},
-	// 	MenuItem{
-	// 		"label": "CRM",
-	// 		Items: []ItemsNivel2{
-	// 			{
-	// 				"label": "Clientes",
-	// 				Items: []ItemsNivel3{
-	// 					{"label": "Manutenção"},
-	// 					{"label": "Relatório"},
-	// 					{"label": "Impressão"},
-	// 				},
-	// 			},
-	// 		},
-	// 	},
-	// }
-
-	menu = []ItemsNivel1{
-		{
-			Label: "Financeiro",
-			Items: []ItemsNivel2{
-				{
-					Label: "Contas a Pagar",
-					Items: []ItemsNivel3{
-						{Label: "Cadastro"},
-					},
-				},
-			},
-		},
-		{
-			Label: "CRM",
-			Items: []ItemsNivel2{
-				{
-					Label: "Clientes",
-					Items: []ItemsNivel3{
-						{Label: "Cadastro"},
-						{Label: "Relatórios"},
-					},
-				},
-			},
-		},
 	}
-	// MenuItem{
-	// 	"label": "CRM",
-	// },
 
-	//	menu[0].item[0].Label = "Vendas"
+	return "Borodin"
+
+}
+
+//RetornaEstruturaDoMenu : zz
+func RetornaEstruturaDoMenu() (menulocal []modelmenu.ItemsNivel1) {
+
+	MontaEstruturaDoMenu()
+
+	itemsDoMenu := `[{"label":"Finanças","items":[{"label":"Contas a Pagar","items":[{"label":"Manutenção"}]}]},{"label":"CRM","items":null}]`
+	json.Unmarshal([]byte(itemsDoMenu), &menulocal)
+
+	return menulocal
+}
+
+// MenuPrincipal : zz
+func MenuPrincipal(c *gin.Context) {
+
+	//Para testar:
+	//curl --header "Content-Type: application/json" --request GET  http://localhost:8081/
+
+	menu := RetornaEstruturaDoMenu()
 
 	c.JSON(200, gin.H{
 		"resposta": menu,

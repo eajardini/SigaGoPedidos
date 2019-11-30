@@ -37,8 +37,6 @@ export default {
   mounted() {
            this.$http.get("/")
               .then (resp => {
-                   //this.menu = resp.data								 
-                   console.log("Olá Servidor!", resp)
                     this.menu = resp.data.resposta
                  //  this.menu = [{"label":"Financeiro","items":[{"label":"Contas a Pagar","items":[{"label":"Cadastro"}]}]},{"label":"CRM","items":null}]
               })
