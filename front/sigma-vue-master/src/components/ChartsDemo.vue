@@ -44,14 +44,14 @@ export default {
 				labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
 				datasets: [
 					{
-						label: 'First Dataset',
+						"label": 'First Dataset',
 						data: [65, 59, 80, 81, 56, 55, 40],
 						fill: false,
 						backgroundColor: '#2f4860',
 						borderColor: '#2f4860'
 					},
 					{
-						label: 'Second Dataset',
+						"label": 'Second Dataset',
 						data: [28, 48, 40, 19, 86, 27, 90],
 						fill: false,
 						backgroundColor: '#00bb7e',
@@ -93,7 +93,7 @@ export default {
 						"#E7E9ED",
 						"#36A2EB"
 					],
-					label: 'My dataset'
+					"label": 'My dataset'
 				}],
 				labels: [
 					"Red",
@@ -107,12 +107,12 @@ export default {
 				labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
 				datasets: [
 					{
-						label: 'My First dataset',
+						"label": 'My First dataset',
 						backgroundColor: '#2f4860',
 						data: [65, 59, 80, 81, 56, 55, 40]
 					},
 					{
-						label: 'My Second dataset',
+						"label": 'My Second dataset',
 						backgroundColor: '#00bb7e',
 						data: [28, 48, 40, 19, 86, 27, 90]
 					}
@@ -140,7 +140,7 @@ export default {
 				labels: ['Eating', 'Drinking', 'Sleeping', 'Designing', 'Coding', 'Cycling', 'Running'],
 				datasets: [
 					{
-						label: 'My First dataset',
+						"label": 'My First dataset',
 						backgroundColor: 'rgba(179,181,198,0.2)',
 						borderColor: 'rgba(179,181,198,1)',
 						pointBackgroundColor: 'rgba(179,181,198,1)',
@@ -150,7 +150,7 @@ export default {
 						data: [65, 59, 90, 81, 56, 55, 40]
 					},
 					{
-						label: 'My Second dataset',
+						"label": 'My Second dataset',
 						backgroundColor: 'rgba(255,99,132,0.2)',
 						borderColor: 'rgba(255,99,132,1)',
 						pointBackgroundColor: 'rgba(255,99,132,1)',

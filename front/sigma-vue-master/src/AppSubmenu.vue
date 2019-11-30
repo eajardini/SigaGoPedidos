@@ -27,7 +27,7 @@
 export default {
 	name: 'AppSubmenu',
 	props: {
-		items: Array,
+		"items": Array,
 		root: {
 			type: Boolean,
 			default: false

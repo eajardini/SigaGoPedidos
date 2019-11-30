@@ -27,13 +27,13 @@ export default {
 		somenteFinanceiroECompoentes(){
 			this.$menu =  [
 				{
-          label: "Financeiro",          
-          items: [
+          "label": "Financeiro",          
+          "items": [
             {
-              label: "Clientes",              
-              items: [
+              "label": "Clientes",              
+              "items": [
                 {
-                  label: "Cadastro de Clientes",                  
+                  "label": "Cadastro de Clientes",                  
                 }
               ]
             }

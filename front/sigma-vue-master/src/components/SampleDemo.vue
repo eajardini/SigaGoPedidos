@@ -376,19 +376,19 @@ export default {
 			selectButtonValue: null,
 			splitItems: [
 				{
-					label: 'Update',
+					"label": 'Update',
 					icon: 'pi pi-refresh'
 				},
 				{
-					label: 'Delete',
+					"label": 'Delete',
 					icon: 'pi pi-times'
 				},
 				{
-					label: 'Vue Website',
+					"label": 'Vue Website',
 					icon: 'pi pi-external-link'
 				},
 				{
-					label: 'Upload',
+					"label": 'Upload',
 					icon: 'pi pi-upload'
 				}
 			],
@@ -401,9 +401,9 @@ export default {
 			sortOrder: null,
 			sortField: null,
 			sortOptions: [
-				{label: 'Newest First', value: '!year'},
-				{label: 'Oldest First', value: 'year'},
-				{label: 'Brand', value: 'brand'}
+				{"label": 'Newest First', value: '!year'},
+				{"label": 'Oldest First', value: 'year'},
+				{"label": 'Brand', value: 'brand'}
 			],
 			picklistCars: null,
 			orderlistCars: null,
@@ -411,25 +411,25 @@ export default {
 			selectedTree: null,
 			menuItems: [
 				{
-					label: 'Options',
-					items: [{
-						label: 'Update',
+					"label": 'Options',
+					"items": [{
+						"label": 'Update',
 						icon: 'pi pi-refresh'
 					},
 						{
-							label: 'Delete',
+							"label": 'Delete',
 							icon: 'pi pi-times'
 						}
 					]
 				},
 				{
-					label: 'Navigate',
-					items: [{
-						label: 'Vue Website',
+					"label": 'Navigate',
+					"items": [{
+						"label": 'Vue Website',
 						icon: 'pi pi-external-link'
 					},
 						{
-							label: 'Upload',
+							"label": 'Upload',
 							icon: 'pi pi-upload'
 						}
 					]

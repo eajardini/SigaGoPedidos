@@ -19,25 +19,25 @@ export default {
 		return {
 			menuItems: [
 				{
-					label: 'Options',
-					items: [{
-						label: 'Update',
+					"label": 'Options',
+					"items": [{
+						"label": 'Update',
 						icon: 'pi pi-refresh'
 					},
 						{
-							label: 'Delete',
+							"label": 'Delete',
 							icon: 'pi pi-times'
 						}
 					]
 				},
 				{
-					label: 'Navigate',
-					items: [{
-						label: 'Vue Website',
+					"label": 'Navigate',
+					"items": [{
+						"label": 'Vue Website',
 						icon: 'pi pi-external-link'
 					},
 						{
-							label: 'Upload',
+							"label": 'Upload',
 							icon: 'pi pi-upload'
 						}
 					]

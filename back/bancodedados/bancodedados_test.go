@@ -15,6 +15,7 @@ var (
 func TestSetaStringDeConexao(t *testing.T) {
 	assert := assert.New(t)
 
+	bd.ConfiguraStringDeConexao("../config/ConfigBancoDados.toml")
 	err := bd.IniciaConexao()
 	assert.Equal(err, nil, "[Erro ao INICIAR o Banco de Dados]")
 	err = bd.AbreConexao()

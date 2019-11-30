@@ -157,9 +157,9 @@ export default {
 			sortOrder: null,
 			sortField: null,
 			sortOptions: [
-				{label: 'Newest First', value: '!year'},
-				{label: 'Oldest First', value: 'year'},
-				{label: 'Brand', value: 'brand'}
+				{"label": 'Newest First', value: '!year'},
+				{"label": 'Oldest First', value: 'year'},
+				{"label": 'Brand', value: 'brand'}
 			],
 			picklistCars: null,
 			orderlistCars: null,
@@ -169,33 +169,33 @@ export default {
 			selectedTreeValue2: null,
 			organizationChartValue: {
 				key: '0',
-				data: {label: 'F.C. Barcelona'},
+				data: {"label": 'F.C. Barcelona'},
 				children: [
 					{
 						key: '0_0',
-						data: {label: 'F.C. Barcelona'},
+						data: {"label": 'F.C. Barcelona'},
 						children: [
 							{
 								key: '0_0_0',
-								data: {label: 'Chelsea F.C.'}
+								data: {"label": 'Chelsea F.C.'}
 							},
 							{
 								key: '0_0_1',
-								data: {label: 'F.C. Barcelona'}
+								data: {"label": 'F.C. Barcelona'}
 							}
 						]
 					},
 					{
 						key: '0_1',
-						data: {label: 'Real Madrid'},
+						data: {"label": 'Real Madrid'},
 						children: [
 							{
 								key: '0_1_0',
-								data: {label: 'Bayern Munich'}
+								data: {"label": 'Bayern Munich'}
 							},
 							{
 								key: '0_1_1',
-								data: {label: 'Real Madrid'}
+								data: {"label": 'Real Madrid'}
 							}
 						]
 					}

@@ -1,5 +1,5 @@
 <template>
-  <div :class="containerClass" @click="onWrapperClick">     
+  <div :class="containerClass" @click="onWrapperClick">
     <AppTopBar @menu-toggle="onMenuToggle" />
 
     <div :class="sidebarClass" @click="onSidebarClick">
@@ -31,170 +31,18 @@ export default {
       staticMenuInactive: false,
       overlayMenuActive: false,
       mobileMenuActive: false,
-      menu: [
-        {
-          label: "Compras",
-          icon: "pi pi-fw pi-search",
-          disabled: true,
-          items: [
-            {
-              label: "Produtos",
-              icon: "pi pi-fw pi-clone",
-              ativo: true,
-              items: [
-                {
-                  label: "Cadastro de Produtos",
-                  icon: "pi pi-fw pi-clone"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          label: "Vendas",
-          icon: "pi pi-fw pi-search",          
-          items: [
-            {
-              label: "Pedidos",
-              icon: "pi pi-fw pi-clone",              
-              items: [
-                {
-                  label: "Fazer Pedido",
-                  icon: "pi pi-fw pi-clone"
-                }
-              ]
-            }
-          ]
-        },
-
-        {
-          label: "Financeiro",          
-          items: [
-            {
-              label: "Clientes",              
-              items: [
-                {
-                  label: "Cadastro de Clientes",                  
-                }
-              ]
-            }
-          ]
-        },
-        {
-          label: "Recusos Humanos",
-          icon: "pi pi-fw pi-search",
-          items: [
-            {
-              label: "Vendedores",
-              icon: "pi pi-fw pi-clone",
-              disabled: true,
-              items: [
-                {
-                  label: "Cadastro de Vendedores",
-                  icon: "pi pi-fw pi-clone",
-                  to: "/menus" ,
-                  disabled: true,
-                }
-              ]
-            }
-          ]
-        },
-        {
-          label: "Components",
-          icon: "pi pi-fw pi-globe",
-          items: [
-            {
-              label: "Sample Page",
-              icon: "pi pi-fw pi-th-large",
-              to: "/sample"
-            },
-            { label: "Forms", icon: "pi pi-fw pi-file", to: "/forms" },
-            { label: "Data", icon: "pi pi-fw pi-table", to: "/data" },
-            { label: "Panels", icon: "pi pi-fw pi-list", to: "/panels" },
-            { label: "Overlays", icon: "pi pi-fw pi-clone", to: "/overlays" },
-            { label: "Menus", icon: "pi pi-fw pi-plus", to: "/menus" },
-            { label: "Messages", icon: "pi pi-fw pi-spinner", to: "/messages" },
-            { label: "Charts", icon: "pi pi-fw pi-chart-bar", to: "/charts" },
-            { label: "Misc", icon: "pi pi-fw pi-upload", to: "/misc" }
-          ]
-        },
-        {
-          label: "Template Pages",
-          icon: "pi pi-fw pi-file",
-          items: [
-            {
-              label: "Empty Page",
-              icon: "pi pi-fw pi-circle-off",
-              to: "/empty"
-            }
-          ]
-        },
-        {
-          label: "Menu Hierarchy",
-          icon: "pi pi-fw pi-search",
-          items: [
-            {
-              label: "Submenu 1",
-              icon: "pi pi-fw pi-bookmark",
-              items: [
-                {
-                  label: "Submenu 1.1",
-                  icon: "pi pi-fw pi-bookmark",
-                  items: [
-                    { label: "Submenu 1.1.1", icon: "pi pi-fw pi-bookmark" },
-                    { label: "Submenu 1.1.2", icon: "pi pi-fw pi-bookmark" },
-                    { label: "Submenu 1.1.3", icon: "pi pi-fw pi-bookmark" }
-                  ]
-                },
-                {
-                  label: "Submenu 1.2",
-                  icon: "pi pi-fw pi-bookmark",
-                  items: [
-                    { label: "Submenu 1.2.1", icon: "pi pi-fw pi-bookmark" },
-                    { label: "Submenu 1.2.2", icon: "pi pi-fw pi-bookmark" }
-                  ]
-                }
-              ]
-            },
-            {
-              label: "Submenu 2",
-              icon: "pi pi-fw pi-bookmark",
-              items: [
-                {
-                  label: "Submenu 2.1",
-                  icon: "pi pi-fw pi-bookmark",
-                  items: [
-                    { label: "Submenu 2.1.1", icon: "pi pi-fw pi-bookmark" },
-                    { label: "Submenu 2.1.2", icon: "pi pi-fw pi-bookmark" },
-                    { label: "Submenu 2.1.3", icon: "pi pi-fw pi-bookmark" }
-                  ]
-                },
-                {
-                  label: "Submenu 2.2",
-                  icon: "pi pi-fw pi-bookmark",
-                  items: [
-                    { label: "Submenu 2.2.1", icon: "pi pi-fw pi-bookmark" },
-                    { label: "Submenu 2.2.2", icon: "pi pi-fw pi-bookmark" }
-                  ]
-                }
-              ]
-            }
-          ]
-        },
-        {
-          label: "Configura Menu",
-          icon: "pi pi-fw pi-menu",
-          items: [
-            {
-              label: "Alterar os Menus",
-              icon: "pi pi-fw pi-circle-off",
-              to: "/configuraMenu"
-            }
-          ]
-        },
-      ]
+      menu: []
     };
   },
+  mounted() {
+           this.$http.get("/")
+              .then (resp => {
+                   //this.menu = resp.data								 
+                   console.log("Olá Servidor!", resp)
+                    this.menu = resp.data.resposta
+                 //  this.menu = [{"label":"Financeiro","items":[{"label":"Contas a Pagar","items":[{"label":"Cadastro"}]}]},{"label":"CRM","items":null}]
+              })
+    },
   watch: {
     $route() {
       this.menuActive = false;
@@ -202,37 +50,37 @@ export default {
     }
   },
   methods: {
-    somenteFinanceiroECompoentes(){
-      this.menu =  [
-				{
-          label: "Financeiro",          
-          items: [
+    
+    somenteFinanceiroECompoentes() {
+      this.menu = [
+        {
+          "label": "Financeiro",
+          "items": [
             {
-              label: "Clientes",              
-              items: [
+              "label": "Clientes",
+              "items": [
                 {
-                  label: "Cadastro de Clientes",                  
+                  "label": "Cadastro de Clientes"
                 }
               ]
             }
           ]
         }
-			]
-
+      ];
     },
-    menuCompleto(){
+    menuCompleto() {
       this.menu = [
         {
-          label: "Compras",
-          icon: "pi pi-fw pi-search",          
-          items: [
+          "label": "Compras",
+          icon: "pi pi-fw pi-search",
+          "items": [
             {
-              label: "Produtos",
+              "label": "Produtos",
               icon: "pi pi-fw pi-clone",
               ativo: true,
-              items: [
+              "items": [
                 {
-                  label: "Cadastro de Produtos",
+                  "label": "Cadastro de Produtos",
                   icon: "pi pi-fw pi-clone"
                 }
               ]
@@ -240,17 +88,17 @@ export default {
           ]
         },
         {
-          label: "Vendas",
+          "label": "Vendas",
           icon: "pi pi-fw pi-search",
           ativo: true,
-          items: [
+          "items": [
             {
-              label: "Pedidos",
+              "label": "Pedidos",
               icon: "pi pi-fw pi-clone",
               ativo: true,
-              items: [
+              "items": [
                 {
-                  label: "Fazer Pedido",
+                  "label": "Fazer Pedido",
                   icon: "pi pi-fw pi-clone"
                 }
               ]
@@ -259,120 +107,119 @@ export default {
         },
 
         {
-          label: "Financeiro",          
-          items: [
+          "label": "Financeiro",
+          "items": [
             {
-              label: "Clientes",              
-              items: [
+              "label": "Clientes",
+              "items": [
                 {
-                  label: "Cadastro de Clientes",                  
+                  "label": "Cadastro de Clientes"
                 }
               ]
             }
           ]
         },
         {
-          label: "Recusos Humanos",
+          "label": "Recusos Humanos",
           icon: "pi pi-fw pi-search",
-          items: [
+          "items": [
             {
-              label: "Vendedores",
-              icon: "pi pi-fw pi-clone",              
-              items: [
+              "label": "Vendedores",
+              icon: "pi pi-fw pi-clone",
+              "items": [
                 {
-                  label: "Cadastro de Vendedores",
+                  "label": "Cadastro de Vendedores",
                   icon: "pi pi-fw pi-clone",
-                  to: "/menus" ,                 
+                  to: "/menus"
                 }
               ]
             }
           ]
         },
         {
-          label: "Components",
+          "label": "Components",
           icon: "pi pi-fw pi-globe",
-          items: [
+          "items": [
             {
-              label: "Sample Page",
+              "label": "Sample Page",
               icon: "pi pi-fw pi-th-large",
               to: "/sample"
             },
-            { label: "Forms", icon: "pi pi-fw pi-file", to: "/forms" },
-            { label: "Data", icon: "pi pi-fw pi-table", to: "/data" },
-            { label: "Panels", icon: "pi pi-fw pi-list", to: "/panels" },
-            { label: "Overlays", icon: "pi pi-fw pi-clone", to: "/overlays" },
-            { label: "Menus", icon: "pi pi-fw pi-plus", to: "/menus" },
-            { label: "Messages", icon: "pi pi-fw pi-spinner", to: "/messages" },
-            { label: "Charts", icon: "pi pi-fw pi-chart-bar", to: "/charts" },
-            { label: "Misc", icon: "pi pi-fw pi-upload", to: "/misc" }
+            { "label": "Forms", icon: "pi pi-fw pi-file", to: "/forms" },
+            { "label": "Data", icon: "pi pi-fw pi-table", to: "/data" },
+            { "label": "Panels", icon: "pi pi-fw pi-list", to: "/panels" },
+            { "label": "Overlays", icon: "pi pi-fw pi-clone", to: "/overlays" },
+            { "label": "Menus", icon: "pi pi-fw pi-plus", to: "/menus" },
+            { "label": "Messages", icon: "pi pi-fw pi-spinner", to: "/messages" },
+            { "label": "Charts", icon: "pi pi-fw pi-chart-bar", to: "/charts" },
+            { "label": "Misc", icon: "pi pi-fw pi-upload", to: "/misc" }
           ]
         },
         {
-          label: "Template Pages",
+          "label": "Template Pages",
           icon: "pi pi-fw pi-file",
-          items: [
+          "items": [
             {
-              label: "Empty Page",
+              "label": "Empty Page",
               icon: "pi pi-fw pi-circle-off",
               to: "/empty"
             }
           ]
         },
         {
-          label: "Menu Hierarchy",
+          "label": "Menu Hierarchy",
           icon: "pi pi-fw pi-search",
-          items: [
+          "items": [
             {
-              label: "Submenu 1",
+              "label": "Submenu 1",
               icon: "pi pi-fw pi-bookmark",
-              items: [
+              "items": [
                 {
-                  label: "Submenu 1.1",
+                  "label": "Submenu 1.1",
                   icon: "pi pi-fw pi-bookmark",
-                  items: [
-                    { label: "Submenu 1.1.1", icon: "pi pi-fw pi-bookmark" },
-                    { label: "Submenu 1.1.2", icon: "pi pi-fw pi-bookmark" },
-                    { label: "Submenu 1.1.3", icon: "pi pi-fw pi-bookmark" }
+                  "items": [
+                    { "label": "Submenu 1.1.1", icon: "pi pi-fw pi-bookmark" },
+                    { "label": "Submenu 1.1.2", icon: "pi pi-fw pi-bookmark" },
+                    { "label": "Submenu 1.1.3", icon: "pi pi-fw pi-bookmark" }
                   ]
                 },
                 {
-                  label: "Submenu 1.2",
+                  "label": "Submenu 1.2",
                   icon: "pi pi-fw pi-bookmark",
-                  items: [
-                    { label: "Submenu 1.2.1", icon: "pi pi-fw pi-bookmark" },
-                    { label: "Submenu 1.2.2", icon: "pi pi-fw pi-bookmark" }
+                  "items": [
+                    { "label": "Submenu 1.2.1", icon: "pi pi-fw pi-bookmark" },
+                    { "label": "Submenu 1.2.2", icon: "pi pi-fw pi-bookmark" }
                   ]
                 }
               ]
             },
             {
-              label: "Submenu 2",
+              "label": "Submenu 2",
               icon: "pi pi-fw pi-bookmark",
-              items: [
+              "items": [
                 {
-                  label: "Submenu 2.1",
+                  "label": "Submenu 2.1",
                   icon: "pi pi-fw pi-bookmark",
-                  items: [
-                    { label: "Submenu 2.1.1", icon: "pi pi-fw pi-bookmark" },
-                    { label: "Submenu 2.1.2", icon: "pi pi-fw pi-bookmark" },
-                    { label: "Submenu 2.1.3", icon: "pi pi-fw pi-bookmark" }
+                  "items": [
+                    { "label": "Submenu 2.1.1", icon: "pi pi-fw pi-bookmark" },
+                    { "label": "Submenu 2.1.2", icon: "pi pi-fw pi-bookmark" },
+                    { "label": "Submenu 2.1.3", icon: "pi pi-fw pi-bookmark" }
                   ]
                 },
                 {
-                  label: "Submenu 2.2",
+                  "label": "Submenu 2.2",
                   icon: "pi pi-fw pi-bookmark",
-                  items: [
-                    { label: "Submenu 2.2.1", icon: "pi pi-fw pi-bookmark" },
-                    { label: "Submenu 2.2.2", icon: "pi pi-fw pi-bookmark" }
+                  "items": [
+                    { "label": "Submenu 2.2.1", icon: "pi pi-fw pi-bookmark" },
+                    { "label": "Submenu 2.2.2", icon: "pi pi-fw pi-bookmark" }
                   ]
                 }
               ]
             }
           ]
-        },       
-      ]
-
-    },    
+        }
+      ];
+    },
     onWrapperClick() {
       if (!this.menuClick) {
         this.overlayMenuActive = false;

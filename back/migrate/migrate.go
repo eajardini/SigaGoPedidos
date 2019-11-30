@@ -42,13 +42,27 @@ func LeArquivoScriptSQL() []byte {
 	return sqlArquivo
 }
 
+// LeArquivoMenuSQL :zz
+func LeArquivoMenuSQL() []byte {
+	sqlArquivo, err := ioutil.ReadFile("scriptCriaMenuSIGA.sql")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return sqlArquivo
+}
+
 func main() {
+	bd.ConfiguraStringDeConexao("../config/ConfigBancoDados.toml")
 	bd.IniciaConexao()
 
 	schemaSQL := LeArquivoScriptSQL()
 
 	bd.AbreConexao()
 	bd.ExecutaMigrate(schemaSQL)
+
+	schemaSQL = LeArquivoScriptSQL()
+
 	bd.FechaConexao()
 
 }

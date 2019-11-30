@@ -45,12 +45,24 @@ var (
 	stringConexao string
 )
 
-func setaStringDeConexao() {
-	if _, err := toml.DecodeFile("../config/ConfigBancoDados.toml", &SIGAConfig); err != nil {
-		fmt.Println("Não deu certo")
+// AbreArquivoDeConfiguracaoDoBancoDeDados : abre o arquivo ConfigBancoDados.toml e seta a
+// estrutura SIGAGoPedidosConfig.
+func (bdcon *BDCon) AbreArquivoDeConfiguracaoDoBancoDeDados(caminhoDoArquivoToml string) error {
+
+	var err error
+
+	if _, err = toml.DecodeFile(caminhoDoArquivoToml, &SIGAConfig); err != nil {
+		fmt.Println("[bancodedados:setaStringDeConexao] Erro ao abrio o arquivo TOML de configuração")
 		log.Fatal(err)
 	}
-	modo = SIGAConfig.Principal.Modo
+	return err
+}
+
+// SetaStringDeConexao : zz
+func (bdcon *BDCon) SetaStringDeConexao(modo string) {
+
+	log.Println("[bancodados, SetaStringDeConexao] Modo de Abertura: ", modo)
+
 	sgbd = SIGAConfig.BancoDeDados[modo].SGBD
 	stringConexao = fmt.Sprintf("user=%s dbname=%s host=%s sslmode=%s",
 		SIGAConfig.BancoDeDados[modo].User, SIGAConfig.BancoDeDados[modo].Database,
@@ -59,15 +71,18 @@ func setaStringDeConexao() {
 	// fmt.Println("Host:", SIGAConfig.BancoDeDados[SIGAConfig.Principal.Modo].Database)
 }
 
-// GetStringConexao : zz
-func GetStringConexao() string {
-	return stringConexao
+//ConfiguraStringDeConexao : este método abre o arquivo de configuração do banco de dados
+//	e depois seta a string de conexão
+func (bdcon *BDCon) ConfiguraStringDeConexao(caminhoDoArquivoToml string) error {
+	err := bdcon.AbreArquivoDeConfiguracaoDoBancoDeDados(caminhoDoArquivoToml)
+	bdcon.SetaStringDeConexao(SIGAConfig.Principal.Modo)
+
+	return err
 }
 
-//IniciaConexao : zz
+//IniciaConexao : Faz a conexão inicial. A string de conexão já deve estar
+//								configurada previamente pelo método ConfiguraStringDeConexao()
 func (bdcon *BDCon) IniciaConexao() error {
-	setaStringDeConexao()
-	// db, err := sqlx.Connect("postgres", "user=postgres dbname=crudbd host=172.17.0.1  sslmode=disable")
 	db, err := sqlx.Connect(sgbd, stringConexao)
 	if err != nil {
 		log.Fatal("[bancodados, Inicia] Erro ao Conectar ao Banco de Dados!!")
@@ -110,10 +125,12 @@ func (bdcon *BDCon) Insert(sgbd string, sqlinsert interface{}) {
 }
 
 // ExecutaMigrate : zz
-func (bdcon *BDCon) ExecutaMigrate(schemaSQL []byte) {
+func (bdcon *BDCon) ExecutaMigrate(schemaSQL []byte) error {
 	_, err := bdcon.BD.Exec(string(schemaSQL))
 	if err != nil {
 		log.Println("[bancodedados:ExecutaMigrate] Erro ao realizar o Migrate")
 		log.Fatalln(err)
 	}
+
+	return err
 }

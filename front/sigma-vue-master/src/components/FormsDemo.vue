@@ -365,19 +365,19 @@ export default {
 			selectButtonValue: null,
 			splitItems: [
 				{
-					label: 'Update',
+					"label": 'Update',
 					icon: 'pi pi-refresh'
 				},
 				{
-					label: 'Delete',
+					"label": 'Delete',
 					icon: 'pi pi-times'
 				},
 				{
-					label: 'Vue Website',
+					"label": 'Vue Website',
 					icon: 'pi pi-external-link'
 				},
 				{
-					label: 'Upload',
+					"label": 'Upload',
 					icon: 'pi pi-upload'
 				}
 			]
