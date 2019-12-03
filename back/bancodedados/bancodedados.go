@@ -85,15 +85,15 @@ func (bdcon *BDCon) ConfiguraStringDeConexao(caminhoDoArquivoToml string) error 
 func (bdcon *BDCon) IniciaConexao() error {
 	db, err := sqlx.Connect(sgbd, stringConexao)
 	if err != nil {
-		log.Fatal("[bancodados, Inicia] Erro ao Conectar ao Banco de Dados!!")
+		log.Fatal("[bancodados.go| Inicia] Erro ao Conectar ao Banco de Dados!!")
 	}
 
 	err = db.Ping()
 
 	if err != nil {
-		log.Fatal("[bancodados, Inicia] Erro ao Pingar ao Banco de Dados!!")
+		log.Fatal("[bancodados.go| Inicia] Erro ao Pingar ao Banco de Dados!!")
 	} else {
-		log.Println("[bancodados, Inicia] Banco de Dados conectado corretamente!!")
+		log.Println("[bancodados.go| Inicia] Banco de Dados conectado corretamente!!")
 	}
 
 	db.Close()
@@ -104,6 +104,7 @@ func (bdcon *BDCon) IniciaConexao() error {
 func (bdcon *BDCon) AbreConexao() error {
 	db, err := sqlx.Connect(sgbd, stringConexao)
 	if err != nil {
+		log.Println("[bancodedados.go|AbreConexao]: Erro ao abrir o Banco de Dados. Motivo: ", err)
 		log.Fatalln(err)
 	}
 	//seta a variavel BD para fazer as consultas SQL
@@ -128,7 +129,8 @@ func (bdcon *BDCon) Insert(sgbd string, sqlinsert interface{}) {
 func (bdcon *BDCon) ExecutaMigrate(schemaSQL []byte) error {
 	_, err := bdcon.BD.Exec(string(schemaSQL))
 	if err != nil {
-		log.Println("[bancodedados:ExecutaMigrate] Erro ao realizar o Migrate")
+		log.Println("[bancodados.go|ExecutaMigrate] Erro ao realizar o Migrate")
+		log.Println("[bancodados.go|ExecutaMigrate] Descarregando o arquivo: ", string(schemaSQL))
 		log.Fatalln(err)
 	}
 
