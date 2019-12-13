@@ -64,8 +64,8 @@ func (bdcon *BDCon) SetaStringDeConexao(modo string) {
 	log.Println("[bancodados, SetaStringDeConexao] Modo de Abertura: ", modo)
 
 	sgbd = SIGAConfig.BancoDeDados[modo].SGBD
-	stringConexao = fmt.Sprintf("user=%s dbname=%s host=%s sslmode=%s",
-		SIGAConfig.BancoDeDados[modo].User, SIGAConfig.BancoDeDados[modo].Database,
+	stringConexao = fmt.Sprintf("user=%s password=%s dbname=%s host=%s sslmode=%s",
+		SIGAConfig.BancoDeDados[modo].User, SIGAConfig.BancoDeDados[modo].Password, SIGAConfig.BancoDeDados[modo].Database,
 		SIGAConfig.BancoDeDados[modo].Host, SIGAConfig.BancoDeDados[modo].Ssl)
 	fmt.Println("[string de Coneção:]", stringConexao)
 	// fmt.Println("Host:", SIGAConfig.BancoDeDados[SIGAConfig.Principal.Modo].Database)
@@ -85,7 +85,10 @@ func (bdcon *BDCon) ConfiguraStringDeConexao(caminhoDoArquivoToml string) error 
 func (bdcon *BDCon) IniciaConexao() error {
 	db, err := sqlx.Connect(sgbd, stringConexao)
 	if err != nil {
+		log.Println("[bancodados.go| Inicia] Erro:", err.Error())
+		log.Println("[bancodados.go| Inicia] Erro:String conexão", stringConexao)
 		log.Fatal("[bancodados.go| Inicia] Erro ao Conectar ao Banco de Dados!!")
+
 	}
 
 	err = db.Ping()
