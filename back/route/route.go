@@ -6,7 +6,9 @@ import (
 
 	//	cliente "eajardini/gin/gocrud/controler/cliente"
 
-	"github.com/gin-gonic/gin"
+	"github.com/gin-contrib/sessions"
+	"github.com/gin-contrib/sessions/cookie"
+	"github.com/gin-gonic/gin" 
 )
 
 var bancodados bd.BDCon
@@ -28,6 +30,9 @@ func CORSMiddleware() gin.HandlerFunc {
 //IniciaServidor : sd
 func IniciaServidor() {
 	r := gin.Default()
+
+	store := cookie.NewStore([]byte("secret"))
+	r.Use(sessions.Sessions("sigagopedidos", store))
 
 	r.Use(CORSMiddleware())
 

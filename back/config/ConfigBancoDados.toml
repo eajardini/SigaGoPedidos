@@ -7,20 +7,20 @@ modo = "Desenvolvimento"
     [BancoDeDados.Desenvolvimento]
     SGBD      = "postgres"
     Host      = "172.17.0.1"
-    User      = "postgres"
+    User      = "usigagopedidos"
     Port      = "5432"
     Ssl       = "disable"
     Database  = "sigagopedidosdev"
-    Password  = "postdba"
+    Password  = "p0stdb@"
 
     [BancoDeDados.Teste]
     SGBD      = "postgres"
     Host      = "172.17.0.1"
-    User      = "postgres"
+    User      = "usigagopedidos"
     Port      = "5432"
     Ssl       = "disable"
     Database  = "sigagopedidosteste"
-    Password  = "postdba"
+    Password  = "p0stdb@'"
 
     [BancoDeDados.Prod]
     SGBD      = "postgres"

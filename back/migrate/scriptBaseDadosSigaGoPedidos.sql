@@ -3,9 +3,11 @@ drop table if exists acl_usergroups;
 drop table if exists acl_user;
 drop table if exists acl_group;
 drop table if exists aversao;
+drop table rh_funcionarios;
 drop sequence if exists seq_acluser;
 drop sequence if exists seq_aclusergroups;
 drop sequence if exists seq_group;
+drop sequence if exists seq_rhfuncionarios;
 
 */
 
@@ -17,7 +19,7 @@ CREATE TABLE if not exists aversao (
 );
 
 insert into aversao
-    values (1, '0.0.1') ON CONFLICT DO NOTHING;;
+    values (1, '0.0.1') ON CONFLICT DO NOTHING;
 
 -- drop table if exists acl_group;
 CREATE TABLE IF NOT EXISTS acl_group (
@@ -85,6 +87,40 @@ values (nextval('seq_aclusergroups'),
          (SELECT groupid            
           FROM acl_group
           WHERE codigogrupo = 'admin'
-         ));
+         )) ON CONFLICT DO NOTHING;
+
+
+-- 19/12/2019 
+-- drop table if exists acl_usergroups;
+
+create SEQUENCE if not EXISTS seq_rhfuncionarios;
+-- drop table rh_funcionarios 
+CREATE TABLE if not EXISTS rh_funcionarios (
+    funcid                integer NOT NULL,
+    cpf                   varchar(11)  unique,
+    rg                    varchar(11),  
+    funcnome              VARCHAR(40) NOT NULL,
+    datanasc              DATE,
+    funcdatacontratacao   DATE NOT NULL,
+    funcdatadispensa      DATE    
+);
+
+ALTER TABLE IF EXISTS rh_funcionarios DROP CONSTRAINT IF EXISTS pk_rh_funcionario CASCADE;
+ALTER TABLE IF EXISTS rh_funcionarios ADD CONSTRAINT pk_rh_funcionario PRIMARY KEY ( funcid );
+
+ALTER TABLE IF EXISTS acl_user ADD IF NOT EXISTS funcid integer;
+ALTER TABLE IF EXISTS acl_user
+    ADD CONSTRAINT fk_acl_user_rh_funcionario FOREIGN KEY ( funcid )
+        REFERENCES rh_funcionarios ( funcid );
+
+INSERT INTO rh_funcionarios
+values (nextval('seq_rhfuncionarios'), '12345678901', '54321', 'Usuário Interno com direito de Admin',
+        current_date, current_date, null) ON CONFLICT DO NOTHING;
+
+update acl_user
+set funcid = (select funcid
+              from rh_funcionarios
+              where cpf = '12345678901')
+where login = 'internal';
 
 commit;

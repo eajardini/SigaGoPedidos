@@ -77,6 +77,21 @@
 <ownDataTypeParameters>1,,</ownDataTypeParameters>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
+<Column name="funcID" id="635177AD-C52C-366F-76AC-EDC65506EB54">
+<createdBy>eajardini</createdBy>
+<createdTime>2019-12-19 18:55:18 UTC</createdTime>
+<ownerDesignName>sigagopedidos</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>615899B1-3993-F66A-8F2B-26ADADE18652</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="F5E64E6E-FC49-719A-F89C-F493041F442C" referredColumn="D1F88886-35E6-AD6D-D738-D568660E73E5"/>
+</associations>
+</Column>
 </columns>
 <indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
 <ind_PK_UK id="59E2893E-5FBC-4A90-F79F-A56BF0CD088E" name="user_PK">
@@ -88,6 +103,16 @@
 <isSurrogateKey>false</isSurrogateKey>
 <indexColumnUsage>
 <colUsage columnID="691ED6F5-1A75-107D-E638-F64725BA36D3"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="04179E02-9DCF-C30A-CBB8-40572B3F2CAD" name="FK_acl_user_rh_funcionario">
+<createdBy>eajardini</createdBy>
+<createdTime>2019-12-19 18:55:18 UTC</createdTime>
+<ownerDesignName>sigagopedidos</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="635177AD-C52C-366F-76AC-EDC65506EB54"/>
 </indexColumnUsage>
 </ind_PK_UK>
 </indexes>

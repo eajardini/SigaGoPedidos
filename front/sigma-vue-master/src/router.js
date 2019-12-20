@@ -14,6 +14,11 @@ export default new Router({
 			component: Dashboard
 		},
 		{
+			path: '/cadastrousuario',
+			name: 'cadastrousuario',
+			component: () => import('./components/administração/ManutencaoDeUsuarios.vue') 
+		},
+		{
 			path: '/sample',
 			name: 'sample',
 			component: () => import('./components/SampleDemo.vue')
