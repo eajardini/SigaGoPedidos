@@ -40,8 +40,14 @@ VALUES
           (22,  'admn112',3, 'Relatórios', 20, '/relatoriousuario' ,'') ,
       (23,  'admn120',2, 'Grupos', 19, 'sem link', ''),
           (24,  'admn111',3, 'Manutenção', 23, '/cadastrogrupo' ,''),
-          (25,  'admn112',3, 'Relatórios', 23, '/relatoriogrupo' ,'') 
-   
+          (25,  'admn112',3, 'Relatórios', 23, '/relatoriogrupo' ,'') ,
+  (500,  'rhmn500',1, 'Recursos Humanos', 0, 'sem link', ''),
+      (510,  'rhmn510',2, 'Funcionários', 500, 'sem link', ''),
+          (511,  'rhmn511',3, 'Manutenção', 510, '/cadastrofuncionario' ,''),
+          (512,  'rhmn512',3, 'Relatórios', 510, '/relatoriofuncionario' ,'') ,
+      (520,  'rhmn520',2, 'Cargos', 500, 'sem link', ''),
+          (521,  'rhmn521',3, 'Manutenção', 520, '/cadastrocargo' ,''),
+          (522,  'rhmn522',3, 'Relatórios', 520, '/relatoriocargo' ,'')   
    ON CONFLICT DO NOTHING;
 
    -- Consulta que retorna o Menu do sistema

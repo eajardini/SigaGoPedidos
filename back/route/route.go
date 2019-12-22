@@ -3,12 +3,12 @@ package route
 import (
 	bd "github.com/eajardini/SigaGoPedidos/back/bancodedados"
 	menu "github.com/eajardini/SigaGoPedidos/back/controler/menu"
-
+	usuarios "github.com/eajardini/SigaGoPedidos/back/controler/usuarios"
 	//	cliente "eajardini/gin/gocrud/controler/cliente"
 
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-contrib/sessions/cookie"
-	"github.com/gin-gonic/gin" 
+	"github.com/gin-gonic/gin"
 )
 
 var bancodados bd.BDCon
@@ -40,6 +40,8 @@ func IniciaServidor() {
 	bancodados.IniciaConexao()
 
 	r.GET("/", menu.MenuPrincipal)
+
+	r.GET("/listaTodosUsuarios", usuarios.ListaTodosUsuarios)
 
 	// cli := r.Group("/cliente")
 	// {

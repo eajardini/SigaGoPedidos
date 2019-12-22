@@ -139,7 +139,7 @@
 </template>
 
 <script>
-import CarService from '../service/CarService';
+
 import EventService from '../service/EventService';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
@@ -218,7 +218,7 @@ export default {
 	eventService: null,
 	nodeService: null,
 	created() {
-		this.carService = new CarService();
+	
 		this.eventService = new EventService();
 		this.nodeService = new NodeService();
 	},

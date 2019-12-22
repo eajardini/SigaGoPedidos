@@ -1,4 +1,4 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
 <oracle.dbtools.crest.model.design.relational.RelationalDesign>
-   <object objectType="main_view" objectID="3ED595A4-0EFA-962B-BDE9-0786BFF65F43" name="ACL" visible="true"/>
+   <object objectType="main_view" objectID="3ED595A4-0EFA-962B-BDE9-0786BFF65F43" name="SigaGoPedidos" visible="true"/>
 </oracle.dbtools.crest.model.design.relational.RelationalDesign>

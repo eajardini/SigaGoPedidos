@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import CarService from '../service/CarService'
+
 
 export default {
 	data() {
@@ -59,10 +59,10 @@ export default {
 	},
 	carService: null,
 	created() {
-		this.carService = new CarService();
+	
 	},
 	mounted() {
-		this.carService.getCarsSmall().then(data => this.dataTableValue = data.slice(0,5));
+	
 	},
 	methods: {
 		open() {

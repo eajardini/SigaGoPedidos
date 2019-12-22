@@ -6,7 +6,6 @@ import (
 	bancodedados "github.com/eajardini/SigaGoPedidos/back/bancodedados"
 	modelmenu "github.com/eajardini/SigaGoPedidos/back/controler/menu/model"
 	"github.com/gin-gonic/gin"
-	"github.com/gin-contrib/sessions"
 )
 
 var (
@@ -119,15 +118,6 @@ func MenuPrincipal(c *gin.Context) {
 
 	//Para testar:
 	//curl --header "Content-Type: application/json" --request GET  http://localhost:8081/
-
-	session := sessions.Default(c)
-
-	if session.Get("hello") != "world" {
-		session.Set("hello", "world")
-		session.Save()
-	}
-
-	
 
 	menu := RetornaEstruturaDoMenu()
 

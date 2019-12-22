@@ -324,7 +324,7 @@
 
 <script>
 import CountryService from '../service/CountryService'
-import CarService from '../service/CarService'
+
 import NodeService from '../service/NodeService'
 
 export default {
@@ -441,16 +441,12 @@ export default {
 	carService: null,
 	nodeService: null,
 	created() {
-		this.carService = new CarService();
+		
 		this.countryService = new CountryService();
 		this.nodeService = new NodeService();
 	},
 	mounted() {
-		this.carService.getCarsLarge().then(data => this.dataViewValue = data);
-		this.carService.getCarsSmall().then(data => this.dataTableCars = data);
-		this.countryService.getCountries().then(data => this.countries = data);
-		this.carService.getCarsSmall().then(data => this.picklistCars = [data,[]]);
-		this.carService.getCarsSmall().then(data => this.orderlistCars = data);
+		
 		this.nodeService.getTreeNodes().then(data => this.nodes = data);
 	},
 	methods: {
