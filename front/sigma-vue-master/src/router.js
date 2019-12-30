@@ -13,11 +13,24 @@ export default new Router({
 			name: 'dashboard',
 			component: Dashboard
 		},
+		//Administração
 		{
-			path: '/cadastrousuario',
-			name: 'cadastrousuario',
+			path: '/manutencaodeusuario',
+			name: 'manutencaodeusuario',
 			component: () => import('./components/administração/ManutencaoDeUsuarios.vue') 
 		},
+		//Recursos Humanos
+		{
+			path: '/manutencaodefuncionario',
+			name: 'manutencaodefuncionario',
+			component: () => import('./components/recursoshumanos/ManutencaoDeFuncionarios.vue') 		
+		},
+		{
+			path: '/cadastrodefuncionario',
+			name: 'cadastrodefuncionario',
+			component: () => import('./components/recursoshumanos/CadastroDeFuncionarios.vue') 		
+		},
+
 		{
 			path: '/sample',
 			name: 'sample',

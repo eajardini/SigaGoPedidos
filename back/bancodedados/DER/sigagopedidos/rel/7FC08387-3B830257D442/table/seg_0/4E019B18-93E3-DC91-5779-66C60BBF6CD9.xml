@@ -1,0 +1,93 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="4E019B18-93E3-DC91-5779-66C60BBF6CD9" name="rh_funcioncargos">
+<createdBy>eajardini</createdBy>
+<createdTime>2019-12-22 13:30:19 UTC</createdTime>
+<ownerDesignName>sigagopedidos</ownerDesignName>
+<ordsAlias>table_6</ordsAlias>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="funcionariocargoID" id="210B34B1-EC23-AEF2-9B94-B93CEDFAEC33">
+<createdBy>eajardini</createdBy>
+<createdTime>2019-12-22 13:31:35 UTC</createdTime>
+<ownerDesignName>sigagopedidos</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="dataposse" id="297C565D-1357-D621-33E3-751B4D04F1E5">
+<createdBy>eajardini</createdBy>
+<createdTime>2019-12-22 13:33:21 UTC</createdTime>
+<ownerDesignName>sigagopedidos</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="funcID" id="F699A39C-4E7C-0183-7ECC-7B1EAAC1BDE8">
+<createdBy>eajardini</createdBy>
+<createdTime>2019-12-22 13:33:27 UTC</createdTime>
+<ownerDesignName>sigagopedidos</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>615899B1-3993-F66A-8F2B-26ADADE18652</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="E1FA65FE-D3D0-B6CC-621E-D0F22F4F0A41" referredColumn="D1F88886-35E6-AD6D-D738-D568660E73E5"/>
+</associations>
+</Column>
+<Column name="cargoID" id="A79D6B16-5768-AA2A-57C1-F8E8652FED7D">
+<createdBy>eajardini</createdBy>
+<createdTime>2019-12-22 13:33:44 UTC</createdTime>
+<ownerDesignName>sigagopedidos</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>615899B1-3993-F66A-8F2B-26ADADE18652</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="8E5A39CC-D67E-6E8E-F6C2-F3A30E237EC6" referredColumn="323F51BC-DEB4-0913-6EBC-4546944C099F"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="99502F9E-39B7-BE5D-15E8-E300F31D87E1" name="PK_rh_funcioncargos">
+<createdBy>eajardini</createdBy>
+<createdTime>2019-12-22 13:31:35 UTC</createdTime>
+<ownerDesignName>sigagopedidos</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="210B34B1-EC23-AEF2-9B94-B93CEDFAEC33"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="3FD13669-331F-769A-5E9C-F93C95226642" name="FK_rh_funcioncargos_funcionarios">
+<createdBy>eajardini</createdBy>
+<createdTime>2019-12-22 13:33:27 UTC</createdTime>
+<ownerDesignName>sigagopedidos</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="F699A39C-4E7C-0183-7ECC-7B1EAAC1BDE8"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="DD270B99-43F4-4B98-6CDD-046756B23FAE" name="FK_rh_funcioncargos_cargos">
+<createdBy>eajardini</createdBy>
+<createdTime>2019-12-22 13:33:44 UTC</createdTime>
+<ownerDesignName>sigagopedidos</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="A79D6B16-5768-AA2A-57C1-F8E8652FED7D"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

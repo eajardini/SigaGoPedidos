@@ -145,7 +145,7 @@ ALTER TABLE IF EXISTS rh_cargos ADD CONSTRAINT pk_rh_cargos PRIMARY KEY ( cargoi
 --drop sequence if exists seq_rhfuncioncargos;
 create SEQUENCE if not EXISTS seq_rhfuncioncargos;
 --drop table rh_funcioncargos;
-CREATE TABLE rh_funcioncargos (
+CREATE TABLE if not EXISTS rh_funcioncargos (
     funcionariocargoid   INTEGER NOT NULL,
     dataposse            DATE NOT NULL,
     funcid               INTEGER NOT NULL,
@@ -163,5 +163,7 @@ ALTER TABLE IF EXISTS rh_funcioncargos
     ADD CONSTRAINT fk_rh_funcioncargos_funcionarios FOREIGN KEY ( funcid )
         REFERENCES rh_funcionarios ( funcid );
 
+-- 22/12/2019 
 
+ALTER TABLE IF EXISTS rh_funcionarios ADD IF NOT EXISTS FOTO BYTEA;
 commit;

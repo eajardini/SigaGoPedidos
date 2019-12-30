@@ -2,11 +2,11 @@ package modelfuncionarios
 
 //STFuncionarios : zz
 type STFuncionarios struct {
-	funcid              int    `json:"funcid"`
-	cpf                 string `json:"cpf"`
-	rg                  string `json:"rg"`
-	funcnome            string `json:"funcnome"`
-	datanasc            string `json:"datanasc"`
-	funcdatacontratacao string `json:"funcdatacontratacao"`
-	funcdatadispensa    string `json:"funcdatadispensa"`
+	Funcid              int    `json:"funcid"`
+	Cpf                 string `json:"cpf"`
+	Rg                  string `json:"rg"`
+	Funcnome            string `json:"funcnome"`
+	Datanasc            string `json:"datanasc"`
+	Funcdatacontratacao string `json:"funcdatacontratacao"`
+	Funcdatadispensa    string `json:"funcdatadispensa"`
 }

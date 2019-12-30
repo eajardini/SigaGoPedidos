@@ -76,8 +76,8 @@ export default {
 		this.eventService = new EventService();
 	},
 	mounted() {
-		this.carService.getCarsSmall().then(data => this.dataTableCars = data);
-		this.eventService.getEvents().then(data => this.events = data);
+		// this.carService.getCarsSmall().then(data => this.dataTableCars = data);
+		// this.eventService.getEvents().then(data => this.events = data);
 	},
 }
 </script>

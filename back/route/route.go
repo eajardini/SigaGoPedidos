@@ -3,6 +3,7 @@ package route
 import (
 	bd "github.com/eajardini/SigaGoPedidos/back/bancodedados"
 	menu "github.com/eajardini/SigaGoPedidos/back/controler/menu"
+	funcionarios "github.com/eajardini/SigaGoPedidos/back/controler/recursoshumanos"
 	usuarios "github.com/eajardini/SigaGoPedidos/back/controler/usuarios"
 	//	cliente "eajardini/gin/gocrud/controler/cliente"
 
@@ -41,7 +42,20 @@ func IniciaServidor() {
 
 	r.GET("/", menu.MenuPrincipal)
 
+	// Módulo de Administração
 	r.GET("/listaTodosUsuarios", usuarios.ListaTodosUsuarios)
+
+	// Módulo de Recursos Humanos
+	rh := r.Group("/rh")
+	{
+		rh.GET("/listaTodosFuncionarios", funcionarios.ListaTodosFuncionarios)
+		rh.POST("/upLoadFotoFuncionario", funcionarios.UPLoadFotoFuncionario)
+		// rh.GET("/selecionatodos", cliente.SelecionaTodosOsCliente)
+		// rh.GET("/selecionaclientepornome", cliente.SelecionaClientePorNome)
+		// rh.POST("/insere", cliente.InsereCliente)
+		// rh.PUT("/atualizacliente", cliente.AtualizaCliente)
+		// rh.DELETE("/apagacliente", cliente.ApagaCliente)
+	}
 
 	// cli := r.Group("/cliente")
 	// {

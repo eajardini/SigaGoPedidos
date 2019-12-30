@@ -1,0 +1,16 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_0" id="E1FA65FE-D3D0-B6CC-621E-D0F22F4F0A41" containerWithKeyObject="4E019B18-93E3-DC91-5779-66C60BBF6CD9" localFKIndex="3FD13669-331F-769A-5E9C-F93C95226642" name="FK_rh_funcioncargos_funcionarios">
+<createdBy>eajardini</createdBy>
+<createdTime>2019-12-22 13:33:27 UTC</createdTime>
+<ownerDesignName>sigagopedidos</ownerDesignName>
+<referredTableLongName>rh_funcionarios</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>08F39AC1-4C3A-F7B6-0382-235CB95B8FDB</referredTableID>
+<keyObject>337716EA-01F5-F072-231F-0AA17D075320</keyObject>
+<referredKeyID>337716EA-01F5-F072-231F-0AA17D075320</referredKeyID>
+<mandatory>true</mandatory>
+<refColNames>funcID</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

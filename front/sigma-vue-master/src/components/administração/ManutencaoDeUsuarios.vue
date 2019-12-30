@@ -4,13 +4,13 @@
       <div class="card">
         <h1>Manutenção de Usuários</h1>
       </div>
-      <div>
+      <div >
         <DataTable :value="usuarios" :selection.sync="selectedUsuarios1" :filters="filters" selectionMode="single" dataKey="vin" 
-            :paginator="true" :rows="10" @row-select="onRowSelect" @row-unselect="onRowUnselect">
+            :paginator="true" :rows="10" > <!--@row-select="onRowSelect" @row-unselect="onRowUnselect">  -->
           <template #header>
             <div style="text-align: right">
               <i class="pi pi-search" style="margin: 4px 4px 0px 0px;"></i>
-              <InputText v-model="filters['global']" placeholder="Busca Global (F2)" size="50" />
+              <InputText ref="busca" v-model="filters['global']" placeholder="Busca Global (F2)" size="50" />
             </div>
           </template>
           <Column field="funcnome" header="Nome Funcionário" filterMatchMode="startsWith"></Column>
@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import UsuariosService from "../../service/UsuariosService";
+//import UsuariosService from "../../service/UsuariosService";
 export default {
   data() {
     return {
@@ -44,13 +44,20 @@ export default {
   },
   usuariosService: null,
   created() {
-    this.usuariosService = new UsuariosService();
+   // this.usuariosService = new UsuariosService();
   },
   mounted() {
     // this.usuariosService.getTodosUsuarios().then(data => (this.usuarios = data));
     this.$http.get("/listaTodosUsuarios").then(res => {
                     this.usuarios = res.data.resposta});            
-  }
+  },
+ methods: {
+    pegaFocus: function() {
+      // Note, you need to add a ref="search" attribute to your input.
+      alert("Borodin");
+      this.$refs.busca.focus();
+    },
+ },
   
 };
 </script>
