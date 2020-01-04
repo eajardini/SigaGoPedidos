@@ -20,6 +20,7 @@ import Editor from 'primevue/editor';
 import Fieldset from 'primevue/fieldset';
 import FileUpload from 'primevue/fileupload';
 import FullCalendar from 'primevue/fullcalendar';
+import InputMask from 'primevue/inputmask';
 import InputSwitch from 'primevue/inputswitch';
 import InputText from 'primevue/inputtext';
 import Listbox from 'primevue/listbox';
@@ -51,6 +52,7 @@ import ToggleButton from 'primevue/togglebutton';
 import Tree from 'primevue/tree';
 import TriStateCheckbox from 'primevue/tristatecheckbox';
 import ValidationMessage from 'primevue/validationmessage';
+import money from 'v-money'
 
 import 'primevue/resources/themes/nova-light/theme.css';
 import 'primevue/resources/primevue.min.css';
@@ -62,12 +64,14 @@ import '@fullcalendar/timegrid/main.min.css';
 import './assets/layout/layout.scss';
 
 
+
 import "./plugins/axios"
 
 import AppSubmenu from './AppSubmenu';
 Vue.directive("appsubmenu", AppSubmenu)
 
 Vue.use(ToastService);
+Vue.use(money, {precision: 4})
 
 
 Vue.config.productionTip = false;
@@ -91,6 +95,7 @@ Vue.component('Editor', Editor);
 Vue.component('Fieldset', Fieldset);
 Vue.component('FileUpload', FileUpload);
 Vue.component('FullCalendar', FullCalendar);
+Vue.component('InputMask', InputMask)
 Vue.component('InputSwitch', InputSwitch);
 Vue.component('InputText', InputText);
 Vue.component('Listbox', Listbox);
@@ -121,6 +126,7 @@ Vue.component('ToggleButton', ToggleButton);
 Vue.component('Tree', Tree);
 Vue.component('TriStateCheckbox', TriStateCheckbox);
 Vue.component('ValidationMessage', ValidationMessage);
+
 
 new Vue({
 	router,

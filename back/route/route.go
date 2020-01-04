@@ -50,6 +50,8 @@ func IniciaServidor() {
 	{
 		rh.GET("/listaTodosFuncionarios", funcionarios.ListaTodosFuncionarios)
 		rh.POST("/upLoadFotoFuncionario", funcionarios.UPLoadFotoFuncionario)
+		rh.POST("/cadastroFuncionario", funcionarios.CadastroFuncionario)
+
 		// rh.GET("/selecionatodos", cliente.SelecionaTodosOsCliente)
 		// rh.GET("/selecionaclientepornome", cliente.SelecionaClientePorNome)
 		// rh.POST("/insere", cliente.InsereCliente)

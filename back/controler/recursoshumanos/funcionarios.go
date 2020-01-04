@@ -74,3 +74,32 @@ func UPLoadFotoFuncionario(c *gin.Context) {
 	c.Data(http.StatusOK, "image/jpeg", buf.Bytes())
 
 }
+
+//CadastroFuncionario : zz
+func CadastroFuncionario(c *gin.Context) {
+
+	// curl -X POST http://localhost:8081/rh/upLoadFotoFuncionario \
+	// -F "foto=@/home/eajardini/pessoal/Fotos/FotoEvandro.png" \
+	// -H "Content-Type: multipart/form-data"
+	nomeFunc := c.Request.FormValue("nomeFunc")
+	// CPFFunc := c.Request.FormValue("CPFFunc")
+	// RGFunc := c.Request.FormValue("RGFunc")
+	// CEPFunc := c.Request.FormValue("CEPFunc")
+	// EnderFunc := c.Request.FormValue("EnderFunc")
+	// CidadeFunc := c.Request.FormValue("CidadeFunc")
+	// UFFunc := c.Request.FormValue("UFFunc")
+	// EstadoFunc := c.Request.FormValue("EstadoFunc")
+	// fotoFuncionario := c.Request.FormValue("fotoFuncionario")
+	// SalarioFunc := c.Request.FormValue("SalarioFunc")
+	// fotofunc, _, _ := c.Request.FormFile("foto")
+
+	log.Println("[**funcionarios | CadastraFuncionario**] ", "Valor dos Dados do funcionário: "+nomeFunc)
+
+	// Upload the file to specific dst.
+	//c.SaveUploadedFile(foto, "./testes/"+foto.Filename+"_Foto")
+
+	//criando arquivo Byte em memoria para retornar a imagem
+
+	c.String(http.StatusOK, "Valor Retornado pelo Gin:"+nomeFunc)
+
+}

@@ -38,5 +38,8 @@
 		"vue": "^2.6.11",
 		"vue-router": "^3.0.3",
 		"vue-template-compiler": "^2.6.11"
+	},
+	"dependencies": {
+		"v-money": "^0.8.1"
 	}
 }

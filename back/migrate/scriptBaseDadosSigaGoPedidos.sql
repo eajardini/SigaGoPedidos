@@ -166,4 +166,13 @@ ALTER TABLE IF EXISTS rh_funcioncargos
 -- 22/12/2019 
 
 ALTER TABLE IF EXISTS rh_funcionarios ADD IF NOT EXISTS FOTO BYTEA;
+ALTER TABLE IF EXISTS rh_funcionarios ADD IF NOT EXISTS funcsalario numeric (7,2);
+
+-- 04/01/2020 
+ALTER TABLE IF EXISTS rh_funcionarios ADD IF NOT EXISTS cep      char(8);
+ALTER TABLE IF EXISTS rh_funcionarios ADD IF NOT EXISTS endereco varchar(30);
+ALTER TABLE IF EXISTS rh_funcionarios ADD IF NOT EXISTS cidade   varchar(30);
+ALTER TABLE IF EXISTS rh_funcionarios ADD IF NOT EXISTS uf       char(2);
+ALTER TABLE IF EXISTS rh_funcionarios ADD IF NOT EXISTS estado   varchar(15);
+
 commit;
