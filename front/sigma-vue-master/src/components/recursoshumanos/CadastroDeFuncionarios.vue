@@ -15,9 +15,9 @@
                 <InputText type="text" v-model="nomeFunc" />
               </div>
               <div class="p-col-12 p-md-3">
-                <p>CPF {{CPFFunc}}</p>
+                <p>CPF</p>
                 <!-- placeholder="999.999.999-99" -->
-                <InputMask mask="999.999.999-99" v-model="CPFFunc" />
+                <InputMask mask="999.999.999-99" v-model="CPFFunc"/>
               </div>
               <div class="p-col-12 p-md-3">
                 <p>RG</p>
@@ -39,8 +39,8 @@
                 <InputText type="text" v-model="CidadeFunc" />
               </div>
               <div class="p-col-12 p-md-1">
-                <p>UF</p>
-                <InputText type="text" v-model="UFFunc" />
+                <p>UF</p>                
+                <InputMask mask="aa" v-model="UFFunc" />
               </div>
               <div class="p-col-12 p-md-3">
                 <p>Estado</p>
@@ -48,7 +48,7 @@
               </div>
               <div class="p-col-12 p-md-2">
                 <p>Data Nascimento</p>
-                <InputMask mask="99/99/9999" v-model="DataNascFunc" />
+                <InputMask mask="99/99/9999"  v-model="DataNascFunc" />
               </div>
             </div>
           </div>
@@ -86,7 +86,7 @@
               </div>
               <div class="p-col-12 p-md-4">
                 <p>Salário</p>
-                <InputText style="text-align: right" v-model.lazy="SalarioFunc" v-money="money" />
+                <InputText style="text-align: right" v-model.lazy="SalarioFunc" v-money="money" />               
               </div>
               
             </div>
@@ -141,17 +141,17 @@ export default {
       UFFunc: null,
       EstadoFunc: null,
       fotoFuncionario: "",
-      DataNascFunc: null,
-      DataContratacaoFunc: null,
-      DataDispensaFunc: null,
+      DataNascFunc:         null,
+      DataContratacaoFunc:  null,
+      DataDispensaFunc:     null,
       SalarioFunc: null,
       money: {
         decimal: ",",
         thousands: ".",
-        prefix: "R$ ",
+        prefix: "",
         suffix: "",
         precision: 2,
-        masked: true
+        masked: false
       }
     };
   },
@@ -168,7 +168,10 @@ export default {
       formData.append("UFFunc", this.UFFunc);
       formData.append("EstadoFunc", this.EstadoFunc);
       formData.append("fotoFuncionario", this.fotoFuncionario);
-      formData.append("SalarioFunc", this.SalarioFunc);
+      formData.append("DataNascFunc", this.DataNascFunc)
+      formData.append("DataContratacaoFunc", this.DataContratacaoFunc)
+      formData.append("DataDispensaFunc", this.DataDispensaFunc)
+      formData.append("SalarioFunc", this.money);
       formData.append("foto", this.selectedFile);
 
       this.$http

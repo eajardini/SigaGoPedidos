@@ -2,10 +2,16 @@ package recursoshumanos
 
 import (
 	"bytes"
+	"database/sql"
+	"database/sql/driver"
 	"io"
 	"log"
 	_ "log"
 	"net/http"
+	"strconv"
+	"strings"
+
+	"time"
 
 	bancodedados "github.com/eajardini/SigaGoPedidos/back/bancodedados"
 	modelfuncionarios "github.com/eajardini/SigaGoPedidos/back/controler/recursoshumanos/model"
@@ -23,19 +29,28 @@ func selecionaTodosFuncionarios() []modelfuncionarios.STFuncionarios {
 	bd.AbreConexao()
 	defer bd.FechaConexao()
 
+	// sql := `
+	// SELECT Funcid,  Cpf, Rg, Funcnome, to_char(Datanasc, 'DD/MM/YYYY') Datanasc,
+	// 		 to_char(Funcdatacontratacao, 'DD/MM/YYYY') Funcdatacontratacao,
+	//      CASE WHEN  Funcdatadispensa isnull THEN '-'
+	//           ELSE to_char(Funcdatadispensa, 'DD/MM/YYYY')
+	//       END AS Funcdatadispensa
+	// from rh_funcionarios
+	// `
+
 	sql := `
-	SELECT Funcid,  Cpf, Rg, Funcnome, to_char(Datanasc, 'DD/MM/YYYY') Datanasc,
-			 to_char(Funcdatacontratacao, 'DD/MM/YYYY') Funcdatacontratacao,
-       CASE WHEN  Funcdatadispensa isnull THEN '-'         
-            ELSE to_char(Funcdatadispensa, 'DD/MM/YYYY')
-        END AS Funcdatadispensa 
-	from rh_funcionarios
-	`
+	SELECT Funcid,  Cpf, Rg, Funcnome, 
+	CASE WHEN  Datanasc = '01/01/0001' THEN null ELSE to_char(Datanasc, 'DD/MM/YYYY') end Datanasc ,
+	to_char(Funcdatacontratacao, 'DD/MM/YYYY')  Funcdatacontratacao,
+	to_char(Funcdatadispensa, 'DD/MM/YYYY')   Funcdatadispensa
+  from rh_funcionarios
+`
 	err := bd.BD.Select(&mFuncionarios, sql)
 
 	if err != nil {
-		log.Println("[funcionarios | selecionaTodosUsuarios] ", "Erro ao listar todos os Funcionarios: "+err.Error())
+		log.Println("[*** funcionarios | selecionaTodosUsuarios] ", "Erro ao listar todos os Funcionarios: "+err.Error())
 	}
+	//log.Println("[funcionarios | selecionaTodosUsuarios] ", "Valor da Data Nasci: "+mFuncionarios[0].Datanasc.Time.String())
 
 	return mFuncionarios
 }
@@ -46,10 +61,46 @@ func ListaTodosFuncionarios(c *gin.Context) {
 	//Para testar:
 	//curl --header "Content-Type: application/json" --request GET  http://localhost:8081/
 
-	TodosFuncionarios := selecionaTodosFuncionarios()
+	//TodosFuncionarios := selecionaTodosFuncionarios()
+
+	type retornoFunc struct {
+		Funcid              sql.NullString `json:"funcid"`
+		Cpf                 sql.NullString `json:"cpf"`
+		Rg                  sql.NullString `json:"rg"`
+		Funcnome            sql.NullString `json:"funcnome"`
+		Datanasc            sql.NullString `json:"datanasc"`
+		Funcdatacontratacao sql.NullString `json:"funcdatacontratacao"`
+		Funcdatadispensa    sql.NullString `json:"funcdatadispensa"`
+	}
+
+	// var mFuncionarios []modelfuncionarios.STFuncionarios
+	var retornoFuncionarios []retornoFunc
+
+	bd.AbreConexao()
+	defer bd.FechaConexao()
+
+	sql := `
+	SELECT Funcid,  Cpf, Rg, Funcnome, 
+	CASE WHEN  Datanasc = '01/01/0001' THEN null ELSE  to_char(Datanasc, 'DD/MM/YYYY')    end  Datanasc,
+	CASE WHEN  Funcdatacontratacao = '01/01/0001' THEN null ELSE  to_char(Funcdatacontratacao, 'DD/MM/YYYY')    end  Funcdatacontratacao,
+	CASE WHEN  Funcdatadispensa = '01/01/0001' THEN null ELSE  to_char(Funcdatadispensa, 'DD/MM/YYYY')    end  Funcdatadispensa
+  from rh_funcionarios
+ `
+	err := bd.BD.Select(&retornoFuncionarios, sql)
+
+	if err != nil {
+		log.Println("[funcionarios | ListaTodosFuncionarios] ", "Erro ao listar todos os Funcionarios: "+err.Error())
+	}
+
+	for i := range retornoFuncionarios {
+		if retornoFuncionarios[i].Rg.String == "null" {
+			retornoFuncionarios[i].Rg.String = ""
+		}
+		// retornoFuncionarios[i].Datanasc.Time.= retornoFuncionarios[i].Datanasc.Time.Format("02/01/2006")
+	}
 
 	c.JSON(200, gin.H{
-		"resposta": TodosFuncionarios,
+		"resposta": retornoFuncionarios,
 	})
 
 }
@@ -75,25 +126,103 @@ func UPLoadFotoFuncionario(c *gin.Context) {
 
 }
 
+//CastNil : zz
+func CastNil(dataConvertida sql.NullTime) driver.Value {
+	log.Println("[funcionarios | CastNil**] ", "Valor de Data valid: "+strconv.FormatBool(dataConvertida.Valid))
+	log.Println("[funcionarios | CastNil**] ", "Valor de Data Format: "+dataConvertida.Time.Format("02/01/2006"))
+	if dataConvertida.Time.Format("02/01/2006") == "01/01/0001" {
+		return nil
+	}
+	return dataConvertida.Value
+}
+
 //CadastroFuncionario : zz
 func CadastroFuncionario(c *gin.Context) {
+
+	var (
+		fotoByte *bytes.Buffer
+		// DataNascFuncConvertidaBD *time.Time
+		err error
+		// year                          int
+		// month                         time.Month
+		// day                           int
+	)
 
 	// curl -X POST http://localhost:8081/rh/upLoadFotoFuncionario \
 	// -F "foto=@/home/eajardini/pessoal/Fotos/FotoEvandro.png" \
 	// -H "Content-Type: multipart/form-data"
 	nomeFunc := c.Request.FormValue("nomeFunc")
-	// CPFFunc := c.Request.FormValue("CPFFunc")
-	// RGFunc := c.Request.FormValue("RGFunc")
-	// CEPFunc := c.Request.FormValue("CEPFunc")
-	// EnderFunc := c.Request.FormValue("EnderFunc")
-	// CidadeFunc := c.Request.FormValue("CidadeFunc")
-	// UFFunc := c.Request.FormValue("UFFunc")
-	// EstadoFunc := c.Request.FormValue("EstadoFunc")
-	// fotoFuncionario := c.Request.FormValue("fotoFuncionario")
-	// SalarioFunc := c.Request.FormValue("SalarioFunc")
-	// fotofunc, _, _ := c.Request.FormFile("foto")
+	CPFFunc := c.Request.FormValue("CPFFunc")
+	RGFunc := c.Request.FormValue("RGFunc")
+	CEPFunc := c.Request.FormValue("CEPFunc")
+	EnderFunc := c.Request.FormValue("EnderFunc")
+	CidadeFunc := c.Request.FormValue("CidadeFunc")
+	UFFunc := c.Request.FormValue("UFFunc")
+	EstadoFunc := c.Request.FormValue("EstadoFunc")
+	DataNascFunc := c.Request.FormValue("DataNascFunc")
+	DataContratacaoFunc := c.Request.FormValue("DataContratacaoFunc")
+	DataDispensaFunc := c.Request.FormValue("DataDispensaFunc")
+	SalarioFunc := c.Request.FormValue("SalarioFunc")
+	fotoFuncionario, _, errFoto := c.Request.FormFile("foto")
 
-	log.Println("[**funcionarios | CadastraFuncionario**] ", "Valor dos Dados do funcionário: "+nomeFunc)
+	CPFFunc = strings.ReplaceAll(CPFFunc, ".", "")
+	CPFFunc = strings.ReplaceAll(CPFFunc, "-", "")
+	CEPFunc = strings.ReplaceAll(CEPFunc, "-", "")
+
+	DataNascFuncConvertida, _ := time.Parse("02/01/2006", DataNascFunc) //DD-MM-YYYY
+
+	if err != nil {
+		log.Println("[funcionarios | CadastraFuncionario**] ", "Erro r de Data Nascimento Convertida: "+err.Error())
+	}
+	dataContratConvertida, _ := time.Parse("02/01/2006", DataContratacaoFunc)   //DD-MM-YYYY
+	dataDispensaFuncConvertida, _ := time.Parse("02/01/2006", DataDispensaFunc) //DD-MM-YYYY
+
+	salarioFuncionarioConvertido, _ := strconv.ParseFloat(SalarioFunc, 32)
+
+	log.Println("[funcionarios | CadastraFuncionario**] ", "Valor de Data Nascimento: "+DataNascFunc)
+	// log.Println("[funcionarios | CadastraFuncionario**] ", "Valor de Data Nascimento Convertida: "+DataNascFuncConvertidaBD.String())
+	// log.Println("[funcionarios | CadastraFuncionario**] ", "Valor de Data Nascimento Convertida.Local().Strin: "+DataNascFuncConvertidaBD.Format("02/01/2006"))
+	// log.Println("[funcionarios | CadastraFuncionario**] ", "Valor de Data Nascimento Convertida.IsZero(): "+strconv.FormatBool(DataNascFuncConvertidaBD.IsZero()))
+
+	// year = DataNascFuncConvertida.Year()
+	// month = DataNascFuncConvertida.Month()
+	// day = DataNascFuncConvertida.Day()
+	// DataNascFuncConvertidaSqlTime.Scan(DataNascFuncConvertida.Date)
+
+	// DataNascFuncConvertida.
+	//criando arquivo Byte em memoria para retornar a imagem
+
+	if errFoto != nil {
+		fotoByte = bytes.NewBuffer(nil)
+	} else {
+		fotoByte = bytes.NewBuffer(nil)
+		_, err := io.Copy(fotoByte, fotoFuncionario)
+
+		if err != nil {
+			log.Println("[**[ERRO]funcionarios | CadastraFuncionario**] ", "Valor de converter a foto para Byte: "+err.Error())
+		}
+	}
+
+	// log.Println("[**funcionarios | CadastraFuncionario**] ", "Valor dos Dados do funcionário: "+nomeFunc)
+	// log.Println("[**funcionarios | CadastraFuncionario**] ", "Valor dos Dados da Data contratação: "+DataContratacaoFunc)
+	bd.AbreConexao()
+	defer bd.FechaConexao()
+
+	tx := bd.BD.MustBegin()
+
+	sql := `
+					INSERT INTO rh_funcionarios (funcid, cpf, rg, funcnome, datanasc, funcdatacontratacao, 
+																			 funcdatadispensa, foto, funcsalario, cep,
+																			 endereco, cidade, uf, estado) 
+					VALUES (nextval('seq_rhfuncionarios'), $1, $2, $3, to_timestamp($4,'DD/MM/YYYY'), $5, $6, $7, $8, $9,
+																								$10, $11, $12, $13)
+					`
+
+	tx.MustExec(sql, CPFFunc, RGFunc, nomeFunc, DataNascFuncConvertida.Format("02/01/2006"), dataContratConvertida,
+		dataDispensaFuncConvertida, fotoByte.Bytes(), salarioFuncionarioConvertido,
+		CEPFunc, EnderFunc, CidadeFunc, UFFunc, EstadoFunc)
+
+	tx.Commit()
 
 	// Upload the file to specific dst.
 	//c.SaveUploadedFile(foto, "./testes/"+foto.Filename+"_Foto")

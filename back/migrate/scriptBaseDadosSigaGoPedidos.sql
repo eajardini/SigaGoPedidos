@@ -49,9 +49,9 @@ INSERT INTO acl_group VALUES (
 CREATE TABLE IF NOT EXISTS acl_user (
     userid          bigint NOT NULL,
     login           VARCHAR(20) unique NOT NULL,
-    password        VARCHAR(50),
+    password        VARCHAR(50) DEFAULT '',
     datacriacao     DATE NOT NULL,
-    datavalidade    DATE,
+    datavalidade    DATE ,
     userbloqueado   CHAR(1),
     CONSTRAINT pk_acluser PRIMARY KEY (userid)
 );
@@ -166,10 +166,10 @@ ALTER TABLE IF EXISTS rh_funcioncargos
 -- 22/12/2019 
 
 ALTER TABLE IF EXISTS rh_funcionarios ADD IF NOT EXISTS FOTO BYTEA;
-ALTER TABLE IF EXISTS rh_funcionarios ADD IF NOT EXISTS funcsalario numeric (7,2);
+ALTER TABLE IF EXISTS rh_funcionarios ADD IF NOT EXISTS funcsalario numeric (7,2) DEFAULT 0;
 
 -- 04/01/2020 
-ALTER TABLE IF EXISTS rh_funcionarios ADD IF NOT EXISTS cep      char(8);
+ALTER TABLE IF EXISTS rh_funcionarios ADD IF NOT EXISTS cep      char(8) DEFAULT '';
 ALTER TABLE IF EXISTS rh_funcionarios ADD IF NOT EXISTS endereco varchar(30);
 ALTER TABLE IF EXISTS rh_funcionarios ADD IF NOT EXISTS cidade   varchar(30);
 ALTER TABLE IF EXISTS rh_funcionarios ADD IF NOT EXISTS uf       char(2);
