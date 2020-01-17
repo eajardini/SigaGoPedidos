@@ -71,6 +71,7 @@ func ListaTodosFuncionarios(c *gin.Context) {
 		Datanasc            sql.NullString `json:"datanasc"`
 		Funcdatacontratacao sql.NullString `json:"funcdatacontratacao"`
 		Funcdatadispensa    sql.NullString `json:"funcdatadispensa"`
+		Foto                sql.NullString `json:"foto"`
 	}
 
 	// var mFuncionarios []modelfuncionarios.STFuncionarios
@@ -83,7 +84,8 @@ func ListaTodosFuncionarios(c *gin.Context) {
 	SELECT Funcid,  Cpf, Rg, Funcnome, 
 	CASE WHEN  Datanasc = '01/01/0001' THEN null ELSE  to_char(Datanasc, 'DD/MM/YYYY')    end  Datanasc,
 	CASE WHEN  Funcdatacontratacao = '01/01/0001' THEN null ELSE  to_char(Funcdatacontratacao, 'DD/MM/YYYY')    end  Funcdatacontratacao,
-	CASE WHEN  Funcdatadispensa = '01/01/0001' THEN null ELSE  to_char(Funcdatadispensa, 'DD/MM/YYYY')    end  Funcdatadispensa
+	CASE WHEN  Funcdatadispensa = '01/01/0001' THEN null ELSE  to_char(Funcdatadispensa, 'DD/MM/YYYY')    end  Funcdatadispensa,
+	'Foto_Evandro_1' Foto
   from rh_funcionarios
  `
 	err := bd.BD.Select(&retornoFuncionarios, sql)
@@ -102,6 +104,43 @@ func ListaTodosFuncionarios(c *gin.Context) {
 	c.JSON(200, gin.H{
 		"resposta": retornoFuncionarios,
 	})
+
+}
+
+// RetornaFotoFuncionario : zz
+func RetornaFotoFuncionario(c *gin.Context) {
+	type retornoFoto struct {
+		Foto []byte `json:"foto"`
+	}
+
+	// idFuncionario := c.Request.FormValue("idfuncionario")
+	// idFuncionario64, _ := strconv.Atoi(idFuncionario)
+	// idFuncionario64 := 104
+
+	var retornoFuncionarios retornoFoto
+
+	bd.AbreConexao()
+	defer bd.FechaConexao()
+
+	sql := `
+	SELECT foto
+	from rh_funcionarios
+	where funcid = 104
+ `
+	err := bd.BD.Get(&retornoFuncionarios, sql)
+
+	if err != nil {
+		log.Println("[funcionarios | RetornaFotoFuncionario] ", "Erro ao encotrar a foto do Funcionario: "+err.Error())
+		c.String(http.StatusInternalServerError, "Erro ao encotrar a foto do Funcionario: "+err.Error())
+		return
+	}
+
+	// buf := bytes.NewBuffer(nil)
+	// if _, err := io.Copy(buf, retornoFuncionarios.Foto); err != nil {
+	// 	log.Println("[funcionarios | UPLoadFotoFuncionario] ", "Erro ao converter a Foto do funcionário: "+err.Error())
+	// }
+
+	c.Data(http.StatusOK, "image/jpeg", retornoFuncionarios.Foto) // buf.Bytes())
 
 }
 
@@ -141,11 +180,9 @@ func CadastroFuncionario(c *gin.Context) {
 
 	var (
 		fotoByte *bytes.Buffer
-		// DataNascFuncConvertidaBD *time.Time
-		err error
-		// year                          int
-		// month                         time.Month
-		// day                           int
+		// Mensagemretorno string 						 `json:"mensagemretorno"`
+		MensagemRetorno string
+		err             error
 	)
 
 	// curl -X POST http://localhost:8081/rh/upLoadFotoFuncionario \
@@ -179,19 +216,6 @@ func CadastroFuncionario(c *gin.Context) {
 
 	salarioFuncionarioConvertido, _ := strconv.ParseFloat(SalarioFunc, 32)
 
-	log.Println("[funcionarios | CadastraFuncionario**] ", "Valor de Data Nascimento: "+DataNascFunc)
-	// log.Println("[funcionarios | CadastraFuncionario**] ", "Valor de Data Nascimento Convertida: "+DataNascFuncConvertidaBD.String())
-	// log.Println("[funcionarios | CadastraFuncionario**] ", "Valor de Data Nascimento Convertida.Local().Strin: "+DataNascFuncConvertidaBD.Format("02/01/2006"))
-	// log.Println("[funcionarios | CadastraFuncionario**] ", "Valor de Data Nascimento Convertida.IsZero(): "+strconv.FormatBool(DataNascFuncConvertidaBD.IsZero()))
-
-	// year = DataNascFuncConvertida.Year()
-	// month = DataNascFuncConvertida.Month()
-	// day = DataNascFuncConvertida.Day()
-	// DataNascFuncConvertidaSqlTime.Scan(DataNascFuncConvertida.Date)
-
-	// DataNascFuncConvertida.
-	//criando arquivo Byte em memoria para retornar a imagem
-
 	if errFoto != nil {
 		fotoByte = bytes.NewBuffer(nil)
 	} else {
@@ -203,8 +227,6 @@ func CadastroFuncionario(c *gin.Context) {
 		}
 	}
 
-	// log.Println("[**funcionarios | CadastraFuncionario**] ", "Valor dos Dados do funcionário: "+nomeFunc)
-	// log.Println("[**funcionarios | CadastraFuncionario**] ", "Valor dos Dados da Data contratação: "+DataContratacaoFunc)
 	bd.AbreConexao()
 	defer bd.FechaConexao()
 
@@ -217,18 +239,30 @@ func CadastroFuncionario(c *gin.Context) {
 					VALUES (nextval('seq_rhfuncionarios'), $1, $2, $3, to_timestamp($4,'DD/MM/YYYY'), $5, $6, $7, $8, $9,
 																								$10, $11, $12, $13)
 					`
-
-	tx.MustExec(sql, CPFFunc, RGFunc, nomeFunc, DataNascFuncConvertida.Format("02/01/2006"), dataContratConvertida,
+	_, err = tx.Exec(sql, CPFFunc, RGFunc, nomeFunc, DataNascFuncConvertida.Format("02/01/2006"), dataContratConvertida,
 		dataDispensaFuncConvertida, fotoByte.Bytes(), salarioFuncionarioConvertido,
 		CEPFunc, EnderFunc, CidadeFunc, UFFunc, EstadoFunc)
 
-	tx.Commit()
+	if err != nil {
+		log.Println("[**[ERRO]funcionarios | CadastraFuncionario**] ", "Erros ao inserir: "+err.Error())
+		MensagemRetorno = "Erro ao cadastrar funcionário:" + err.Error()
+		c.String(http.StatusInternalServerError, MensagemRetorno)
+		return
+	}
+
+	err = tx.Commit()
+
+	if err != nil {
+		log.Println("[**[ERRO]funcionarios | CadastraFuncionario**] ", "Erros ao fechar transação: "+err.Error())
+		MensagemRetorno = "Erro ao fechar transação no cadastro funcionário:" + err.Error()
+		c.String(http.StatusInternalServerError, MensagemRetorno)
+		return
+	}
 
 	// Upload the file to specific dst.
 	//c.SaveUploadedFile(foto, "./testes/"+foto.Filename+"_Foto")
 
 	//criando arquivo Byte em memoria para retornar a imagem
-
-	c.String(http.StatusOK, "Valor Retornado pelo Gin:"+nomeFunc)
-
+	MensagemRetorno = "Funcionário cadastrado com sucesso!"
+	c.String(http.StatusOK, MensagemRetorno)
 }

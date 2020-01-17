@@ -32,6 +32,8 @@ func CORSMiddleware() gin.HandlerFunc {
 func IniciaServidor() {
 	r := gin.Default()
 
+	r.Static("/fotos", "./fotos")
+
 	store := cookie.NewStore([]byte("secret"))
 	r.Use(sessions.Sessions("sigagopedidos", store))
 
@@ -49,6 +51,7 @@ func IniciaServidor() {
 	rh := r.Group("/rh")
 	{
 		rh.GET("/listaTodosFuncionarios", funcionarios.ListaTodosFuncionarios)
+		rh.GET("/retornafotofuncionario", funcionarios.RetornaFotoFuncionario)
 		rh.POST("/upLoadFotoFuncionario", funcionarios.UPLoadFotoFuncionario)
 		rh.POST("/cadastroFuncionario", funcionarios.CadastroFuncionario)
 

@@ -121,8 +121,22 @@
           </div>
         </div>
       </div>
-    </div>
+    </div>  
+    <div class="p-col-12">
+        
+         
+          <Dialog header="Mensagem do Servidor" :visible.sync="displayMensagem" :style="{width: '50vw'}" :modal="true">
+            <p>
+              {{MensagemDoServidor}}
+            </p>
+            <template #footer>
+              <Button label="Fechar Mensagem" icon="pi pi-check" @click="fechaMensagem" />              
+            </template>
+          </Dialog>         
+        
+     </div>
   </div>
+
 </template>
 
 <script>
@@ -152,7 +166,10 @@ export default {
         suffix: "",
         precision: 2,
         masked: false
-      }
+      },
+      displayMensagem: false,
+      MensagemDoServidor : "",
+      DemitirFuncionario : false,
     };
   },
   funcionariosService: null,
@@ -176,17 +193,24 @@ export default {
 
       this.$http
         .post("/rh/cadastroFuncionario", formData)
-        .then(function(response) {
-          console.log(response.data);
+        .then((response) => {
+           console.log("Deu certo: " + response.data);
+          this.MensagemDoServidor = response.data;
+          this.displayMensagem = true;
+          this.limpaFormulario();
         })
-        .catch(function(error) {
-          console.log(error);
+        .catch((error) => {
+          console.log("Deu erro: " + error);
+          this.MensagemDoServidor = "Problema ao cadastrar o funcionário. Verifique os dados do formulário";
+          this.displayMensagem = true;
         });
     },
     chamamanutencaodefuncionario() {
       this.$router.push("/manutencaodefuncionario");
     },
-
+    fechaMensagem(){
+      this.displayMensagem = false;
+    },
     limpaFormulario() {
       (this.nomeFunc = null),
         (this.CPFFunc = ""),
@@ -219,10 +243,6 @@ export default {
           };
         });
 
-      // verificar porque a foto nao esta apareceno
-
-      // this.$http.get("/rh/listaTodosFuncionarios").then(res => {
-      //               this.funcionarios = res.data.resposta});
     },
     previewFiles() {
       this.files = this.$refs.myFiles.files;

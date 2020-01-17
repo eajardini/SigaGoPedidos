@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import Dashboard from './components/Dashboard.vue';
+import CadastroDeFuncionarios from './components/recursoshumanos/CadastroDeFuncionarios.vue';
 // import ConfiguraMenu from './components/ConfiguraMenu';
 
 Vue.use(Router);
@@ -28,7 +29,8 @@ export default new Router({
 		{
 			path: '/cadastrodefuncionario',
 			name: 'cadastrodefuncionario',
-			component: () => import('./components/recursoshumanos/CadastroDeFuncionarios.vue') 		
+			component: CadastroDeFuncionarios
+			// component: () => import('./components/recursoshumanos/CadastroDeFuncionarios.vue') 		
 		},
 
 		{
