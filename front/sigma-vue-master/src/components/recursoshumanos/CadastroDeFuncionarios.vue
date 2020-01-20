@@ -170,6 +170,7 @@ export default {
       displayMensagem: false,
       MensagemDoServidor : "",
       DemitirFuncionario : false,
+      idFuncionarioAlteracao : "",
     };
   },
   funcionariosService: null,
@@ -253,6 +254,15 @@ export default {
   },
   mounted() {
     // this.usuariosService.getTodosUsuarios().then(data => (this.usuarios = data));
+    if (localStorage.getItem('storeIdFuncionario')) {
+      try {
+        this.idFuncionarioAlteracao = JSON.parse(localStorage.getItem('storeIdFuncionario'));
+        console.log("[CafastgroDeFucionarios] Valor do ID Funcionário:" + this.idFuncionarioAlteracao)
+        localStorage.removeItem('storeIdFuncionario')
+      } catch(e) {
+        localStorage.removeItem('storeIdFuncionario');
+      }
+    }
   }
 };
 </script>

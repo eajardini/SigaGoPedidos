@@ -21,11 +21,11 @@
               <InputText v-model="filters['global']" placeholder="Busca Global (F2)" size="50" />
             </div>
           </template>
-          <Column field="foto.String" header="Foto">
+          <Column field="foto" header="Foto">
             <template #body="slotProps"> 
-              <img                
-                :src="'http://localhost:8081/rh/retornafotofuncionario/'"               
-                width="48px"
+              <img    
+              :src="mostraFotoNoGrid(slotProps.data.funcid.String)"
+              width="64px"
               /> 
             </template> 
           </Column>
@@ -51,7 +51,12 @@
                 @click="chamacadastrodefuncionario"
                 class="p-button-rounded"
               />
-              <Button label="Alterar" class="p-button-rounded p-button-warning" />
+              <Button 
+                label="Alterar" 
+                @click="alteraDadosDeFuncionarios"
+                class="p-button-rounded p-button-warning" 
+              />
+              
               <Button label="Demitir funcionário" class="p-button-rounded p-button-danger" />
             </div>
           </template>
@@ -70,7 +75,7 @@ export default {
       fotoGrid: null,
 
       funcionarios: null,
-      selectedFuncionarios1: null
+      selectedFuncionarios1: null,
     };
   },
   funcionariosService: null,
@@ -82,11 +87,25 @@ export default {
       // this.$router.
       this.$router.push("/cadastrodefuncionario");
     },
-    mostraFotoNoGrid(idfuncionario){
+    alteraDadosDeFuncionarios() {
+      // this.$router.
+      // this.$router.push("/cadastrodefuncionario");
+
+      var idFuncionario = 3;
+
+      localStorage.setItem('storeIdFuncionario', JSON.stringify(idFuncionario));
+
+      this.$router.push("/cadastrodefuncionario");
+    },
+    mostraFotoNoGrid(idFuncionario){
       
       // const formData = new FormData();
       // formData.append("foto", this.selectedFile, this.selectedFile.name); Retirei o último parametro, se der pau, volto ele
-      console.log("Valor ID:", idfuncionario)
+      // console.log("Valor ID:", idFuncionario)
+      // console.log("BaseUrl foto:", this.$httpBaseURL)
+      
+
+      return this.$httpBaseURL + '/rh/retornafotofuncionario/' + idFuncionario
       // formData.append("foto", idfuncionario);
       // this.$http
       //   .post("/rh/retornafotofuncionario", formData, { responseType: "blob" })
@@ -105,9 +124,15 @@ export default {
   },
   mounted() {
     // this.usuariosService.getTodosUsuarios().then(data => (this.usuarios = data));
+
+    //Limpa as Storages ao iniciar o formulário
+    localStorage.removeItem('storeIdFuncionario');
+
     this.$http.get("/rh/listaTodosFuncionarios").then(res => {
       this.funcionarios = res.data.resposta;
+      // console.log("Foto:" + this.funcionarios)
     });
+    
   }
 };
 </script>

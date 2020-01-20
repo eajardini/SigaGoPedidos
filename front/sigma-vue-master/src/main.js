@@ -52,7 +52,7 @@ import ToggleButton from 'primevue/togglebutton';
 import Tree from 'primevue/tree';
 import TriStateCheckbox from 'primevue/tristatecheckbox';
 import ValidationMessage from 'primevue/validationmessage';
-import money from 'v-money'
+import money from 'v-money';
 
 import 'primevue/resources/themes/nova-light/theme.css';
 import 'primevue/resources/primevue.min.css';

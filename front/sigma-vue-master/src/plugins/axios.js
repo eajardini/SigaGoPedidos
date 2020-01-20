@@ -3,12 +3,15 @@ import axios from 'axios'
 
 // axios.defaults.baseURL = "https://curso-vue-50e2a.firebaseio.com/"
 
+
 Vue.use({
   install(Vue) {
-    // Vue.prototype.$http = axios
+    // Vue.prototype.$http = axios  
+    Vue.prototype.$httpBaseURL = process.env.NODE_ENV === 'production' ? 'http://localhost:8081' : 'http://localhost:8081'
+
     Vue.prototype.$http = axios.create({
-      baseURL: process.env.NODE_ENV === 'production' ? 'http://167.114.124.28:8081' : 'http://localhost:8081',
-    
+      baseURL: process.env.NODE_ENV === 'production' ? 'http://localhost:8081' : 'http://localhost:8081',
+      
     })   
 
     Vue.prototype.$http.interceptors.request.use(config => {

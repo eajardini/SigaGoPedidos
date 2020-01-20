@@ -71,7 +71,7 @@ func ListaTodosFuncionarios(c *gin.Context) {
 		Datanasc            sql.NullString `json:"datanasc"`
 		Funcdatacontratacao sql.NullString `json:"funcdatacontratacao"`
 		Funcdatadispensa    sql.NullString `json:"funcdatadispensa"`
-		Foto                sql.NullString `json:"foto"`
+		Foto                []byte         `json:"foto"`
 	}
 
 	// var mFuncionarios []modelfuncionarios.STFuncionarios
@@ -85,7 +85,7 @@ func ListaTodosFuncionarios(c *gin.Context) {
 	CASE WHEN  Datanasc = '01/01/0001' THEN null ELSE  to_char(Datanasc, 'DD/MM/YYYY')    end  Datanasc,
 	CASE WHEN  Funcdatacontratacao = '01/01/0001' THEN null ELSE  to_char(Funcdatacontratacao, 'DD/MM/YYYY')    end  Funcdatacontratacao,
 	CASE WHEN  Funcdatadispensa = '01/01/0001' THEN null ELSE  to_char(Funcdatadispensa, 'DD/MM/YYYY')    end  Funcdatadispensa,
-	'Foto_Evandro_1' Foto
+	Foto
   from rh_funcionarios
  `
 	err := bd.BD.Select(&retornoFuncionarios, sql)
@@ -116,6 +116,10 @@ func RetornaFotoFuncionario(c *gin.Context) {
 	// idFuncionario := c.Request.FormValue("idfuncionario")
 	// idFuncionario64, _ := strconv.Atoi(idFuncionario)
 	// idFuncionario64 := 104
+	idFuncionario := c.Param("idFuncionario")
+
+	idFuncionario64, _ := strconv.Atoi(idFuncionario)
+	log.Println("[funcionarios | idFuncionario64] ", "Valor de idFuncionario64: "+strconv.Itoa(idFuncionario64))
 
 	var retornoFuncionarios retornoFoto
 
@@ -123,10 +127,10 @@ func RetornaFotoFuncionario(c *gin.Context) {
 	defer bd.FechaConexao()
 
 	sql := `
-	SELECT foto
-	from rh_funcionarios
-	where funcid = 104
- `
+		SELECT foto
+		from rh_funcionarios
+		where funcid = ` + idFuncionario
+
 	err := bd.BD.Get(&retornoFuncionarios, sql)
 
 	if err != nil {

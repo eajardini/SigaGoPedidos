@@ -4,6 +4,8 @@ import Dashboard from './components/Dashboard.vue';
 import CadastroDeFuncionarios from './components/recursoshumanos/CadastroDeFuncionarios.vue';
 // import ConfiguraMenu from './components/ConfiguraMenu';
 
+
+
 Vue.use(Router);
 
 export default new Router({
