@@ -10,9 +10,10 @@
           :selection.sync="selectedFuncionarios1"
           :filters="filters"
           selectionMode="single"
-          data-key="cpf.String"
+          data-key="funcid.String"
           :paginator="true"
           :rows="10"
+         
         >
           <!-- @row-select="onRowSelect" @row-unselect="onRowUnselect"> -->
           <template #header>
@@ -23,10 +24,18 @@
           </template>
           <Column field="foto" header="Foto">
             <template #body="slotProps"> 
-              <img    
+
+              <!-- Esta funcionando Beleza -->
+              <!-- <img    
               :src="mostraFotoNoGrid(slotProps.data.funcid.String)"
               width="64px"
-              /> 
+              />  -->
+              <!-- https://stackoverflow.com/questions/30129486/set-img-src-from-byte-array -->
+              <img             
+              :src= "mostraFotoNoGrid2(slotProps)"
+              width="64px"
+              />
+
             </template> 
           </Column>
           <Column field="funcnome.String" header="Nome Funcionário" filterMatchMode="startsWith"></Column>
@@ -63,6 +72,19 @@
         </DataTable>
       </div>
     </div>
+    <div class="p-col-12">
+        
+         <!-- "Mensagem do Servidor" -->
+          <Dialog :header= "HeaderMensagemDoServidor" :visible.sync="displayMensagem" :style="{width: '30vw'}" :modal="true">
+            <p>
+              {{MensagemDoServidor}}
+            </p>
+            <template #footer>
+              <Button label="Fechar Mensagem" icon="pi pi-check" @click="fechaMensagem" />              
+            </template>
+          </Dialog>         
+        
+    </div>
   </div>
 </template>
 
@@ -76,6 +98,9 @@ export default {
 
       funcionarios: null,
       selectedFuncionarios1: null,
+      displayMensagem: false,
+      MensagemDoServidor : "",
+      HeaderMensagemDoServidor : "",
     };
   },
   funcionariosService: null,
@@ -87,15 +112,33 @@ export default {
       // this.$router.
       this.$router.push("/cadastrodefuncionario");
     },
+    onRowSelect(event) {
+            console.log("evento:", event.data.funcid.String)
+            
+        },
     alteraDadosDeFuncionarios() {
-      // this.$router.
-      // this.$router.push("/cadastrodefuncionario");
+    
+      if (this.selectedFuncionarios1 != null) {
+          var idFuncionario = this.selectedFuncionarios1.funcid.String;
 
-      var idFuncionario = 3;
+     
+          // console.log("idFuncionario:", this.selectedFuncionarios1.funcid.String)
 
-      localStorage.setItem('storeIdFuncionario', JSON.stringify(idFuncionario));
+          localStorage.setItem('storeIdFuncionario', JSON.stringify(idFuncionario));
 
-      this.$router.push("/cadastrodefuncionario");
+          this.$router.push("/atualizacaodefuncionario");
+      } else {
+         console.log("Funcionário não selecionado", "Favor selecionar um Fucnionário!")
+        //  alert("Funcionário não selecionado", "Favor selecionar um Fucnionário!")
+          this.HeaderMensagemDoServidor = "Atenção!"
+          this.MensagemDoServidor = "Funcionário não selecionado, favor selecionar um Funcionário";
+          this.displayMensagem = true;
+      }
+
+
+    },
+    fechaMensagem(){
+      this.displayMensagem = false;
     },
     mostraFotoNoGrid(idFuncionario){
       
@@ -117,6 +160,16 @@ export default {
       //     };
       //   });
       //return this.fotoGrid;
+    },
+    mostraFotoNoGrid2(foto){
+      
+      
+      // console.log("Foto:", foto.data.foto)      
+      
+
+      return "data:image/jpg;base64, " + foto.data.foto;
+      //  return this.$refs.cropper.replace(foto.data.foto);
+      
     }
   },
   created() {
@@ -128,6 +181,7 @@ export default {
     //Limpa as Storages ao iniciar o formulário
     localStorage.removeItem('storeIdFuncionario');
 
+    // Busca todos os funcionários cadastrados e ativos
     this.$http.get("/rh/listaTodosFuncionarios").then(res => {
       this.funcionarios = res.data.resposta;
       // console.log("Foto:" + this.funcionarios)

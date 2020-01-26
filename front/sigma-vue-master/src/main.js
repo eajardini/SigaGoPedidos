@@ -71,7 +71,7 @@ import AppSubmenu from './AppSubmenu';
 Vue.directive("appsubmenu", AppSubmenu)
 
 Vue.use(ToastService);
-Vue.use(money, {precision: 4})
+Vue.use(money, {precision: 2})
 
 
 Vue.config.productionTip = false;

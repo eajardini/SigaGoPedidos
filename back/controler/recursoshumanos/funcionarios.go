@@ -3,7 +3,6 @@ package recursoshumanos
 import (
 	"bytes"
 	"database/sql"
-	"database/sql/driver"
 	"io"
 	"log"
 	_ "log"
@@ -16,6 +15,7 @@ import (
 	bancodedados "github.com/eajardini/SigaGoPedidos/back/bancodedados"
 	modelfuncionarios "github.com/eajardini/SigaGoPedidos/back/controler/recursoshumanos/model"
 	"github.com/gin-gonic/gin"
+	"github.com/go-playground/validator/v10"
 )
 
 var (
@@ -113,9 +113,6 @@ func RetornaFotoFuncionario(c *gin.Context) {
 		Foto []byte `json:"foto"`
 	}
 
-	// idFuncionario := c.Request.FormValue("idfuncionario")
-	// idFuncionario64, _ := strconv.Atoi(idFuncionario)
-	// idFuncionario64 := 104
 	idFuncionario := c.Param("idFuncionario")
 
 	idFuncionario64, _ := strconv.Atoi(idFuncionario)
@@ -169,16 +166,6 @@ func UPLoadFotoFuncionario(c *gin.Context) {
 
 }
 
-//CastNil : zz
-func CastNil(dataConvertida sql.NullTime) driver.Value {
-	log.Println("[funcionarios | CastNil**] ", "Valor de Data valid: "+strconv.FormatBool(dataConvertida.Valid))
-	log.Println("[funcionarios | CastNil**] ", "Valor de Data Format: "+dataConvertida.Time.Format("02/01/2006"))
-	if dataConvertida.Time.Format("02/01/2006") == "01/01/0001" {
-		return nil
-	}
-	return dataConvertida.Value
-}
-
 //CadastroFuncionario : zz
 func CadastroFuncionario(c *gin.Context) {
 
@@ -187,13 +174,35 @@ func CadastroFuncionario(c *gin.Context) {
 		// Mensagemretorno string 						 `json:"mensagemretorno"`
 		MensagemRetorno string
 		err             error
+		validate        = validator.New()
 	)
 
 	// curl -X POST http://localhost:8081/rh/upLoadFotoFuncionario \
 	// -F "foto=@/home/eajardini/pessoal/Fotos/FotoEvandro.png" \
 	// -H "Content-Type: multipart/form-data"
 	nomeFunc := c.Request.FormValue("nomeFunc")
+	err = validate.Var(nomeFunc, "required")
+	if err != nil {
+		MensagemRetorno = "Erro de Validação do Nome do Funcionário: " + err.Error()
+		log.Println("[funcionarios | CadastraFuncionario**] ", MensagemRetorno) // output: Key: "" Error:Field validation for "" failed on the "email" tag
+		c.JSON(500, gin.H{
+			"resposta": MensagemRetorno,
+		})
+		return
+	}
+
 	CPFFunc := c.Request.FormValue("CPFFunc")
+	err = validate.Var(CPFFunc, "required")
+	if err != nil {
+		MensagemRetorno = "Erro de Validação do CPF: " + err.Error()
+		log.Println("[funcionarios | CadastraFuncionario**] ", MensagemRetorno) // output: Key: "" Error:Field validation for "" failed on the "email" tag
+		// c.String(http.StatusInternalServerError, MensagemRetorno)
+		c.JSON(400, gin.H{
+			"resposta": MensagemRetorno,
+		})
+		return
+	}
+
 	RGFunc := c.Request.FormValue("RGFunc")
 	CEPFunc := c.Request.FormValue("CEPFunc")
 	EnderFunc := c.Request.FormValue("EnderFunc")
@@ -202,6 +211,15 @@ func CadastroFuncionario(c *gin.Context) {
 	EstadoFunc := c.Request.FormValue("EstadoFunc")
 	DataNascFunc := c.Request.FormValue("DataNascFunc")
 	DataContratacaoFunc := c.Request.FormValue("DataContratacaoFunc")
+	err = validate.Var(DataContratacaoFunc, "required")
+
+	if err != nil {
+		MensagemRetorno = "Erro de Validação da Data de Contratação: " + err.Error()
+		log.Println("[funcionarios | CadastraFuncionario**] ", MensagemRetorno) // output: Key: "" Error:Field validation for "" failed on the "email" tag
+		c.String(http.StatusInternalServerError, MensagemRetorno)
+		return
+	}
+
 	DataDispensaFunc := c.Request.FormValue("DataDispensaFunc")
 	SalarioFunc := c.Request.FormValue("SalarioFunc")
 	fotoFuncionario, _, errFoto := c.Request.FormFile("foto")
@@ -209,16 +227,20 @@ func CadastroFuncionario(c *gin.Context) {
 	CPFFunc = strings.ReplaceAll(CPFFunc, ".", "")
 	CPFFunc = strings.ReplaceAll(CPFFunc, "-", "")
 	CEPFunc = strings.ReplaceAll(CEPFunc, "-", "")
-
 	DataNascFuncConvertida, _ := time.Parse("02/01/2006", DataNascFunc) //DD-MM-YYYY
-
 	if err != nil {
 		log.Println("[funcionarios | CadastraFuncionario**] ", "Erro r de Data Nascimento Convertida: "+err.Error())
 	}
 	dataContratConvertida, _ := time.Parse("02/01/2006", DataContratacaoFunc)   //DD-MM-YYYY
 	dataDispensaFuncConvertida, _ := time.Parse("02/01/2006", DataDispensaFunc) //DD-MM-YYYY
 
+	log.Println("[funcionarios | CadastraFuncionario**] ", "Salario Incial: "+SalarioFunc)
+	// SalarioFunc = strings.ReplaceAll(SalarioFunc, ".", "")
+	// log.Println("[funcionarios | CadastraFuncionario**] ", "Salario sem ponto: "+SalarioFunc)
+	SalarioFunc = strings.ReplaceAll(SalarioFunc, ",", ".")
+	log.Println("[funcionarios | CadastraFuncionario**] ", "Salario sem virgula: "+SalarioFunc)
 	salarioFuncionarioConvertido, _ := strconv.ParseFloat(SalarioFunc, 32)
+	log.Println("[funcionarios | CadastraFuncionario**] ", "Salario ParseFloat: "+strconv.FormatFloat(salarioFuncionarioConvertido, 'f', 2, 64))
 
 	if errFoto != nil {
 		fotoByte = bytes.NewBuffer(nil)
@@ -268,5 +290,193 @@ func CadastroFuncionario(c *gin.Context) {
 
 	//criando arquivo Byte em memoria para retornar a imagem
 	MensagemRetorno = "Funcionário cadastrado com sucesso!"
+	c.String(http.StatusOK, MensagemRetorno)
+}
+
+//BuscaDadosFuncionariosParaAtualizar : zz
+func BuscaDadosFuncionariosParaAtualizar(c *gin.Context) {
+
+	var (
+		MensagemRetorno     string
+		RetornoFuncionarios modelfuncionarios.STFuncionariosParaRetorno
+	)
+
+	idFuncionario := c.Request.FormValue("funcid")
+
+	log.Println("[funcionarios | BuscaDadosFuncionariosParaAtualizar] idFuncionario: " + idFuncionario)
+
+	bd.AbreConexao()
+	defer bd.FechaConexao()
+
+	sql := `
+			select * from rh_funcionarios
+			where funcid = ` + idFuncionario
+
+	err := bd.BD.Get(&RetornoFuncionarios, sql)
+
+	if err != nil {
+		MensagemRetorno = "Erro ao buscar os dados do funcionário: " + err.Error()
+		log.Println("[funcionarios | BuscaDadosFuncionariosParaAtualizar] ", MensagemRetorno) // output: Key: "" Error:Field validation for "" failed on the "email" tag
+		c.String(http.StatusInternalServerError, MensagemRetorno)
+		return
+	}
+
+	if RetornoFuncionarios.Endereco.String == "null" {
+		RetornoFuncionarios.Endereco.String = ""
+	}
+	if RetornoFuncionarios.Cidade.String == "null" {
+		RetornoFuncionarios.Cidade.String = ""
+	}
+	if RetornoFuncionarios.Estado.String == "null" {
+		RetornoFuncionarios.Estado.String = ""
+	}
+
+	if RetornoFuncionarios.Uf.String == "null" {
+		RetornoFuncionarios.Uf.String = ""
+	}
+
+	if RetornoFuncionarios.Rg.String == "null" {
+		RetornoFuncionarios.Rg.String = ""
+	}
+
+	log.Println("[funcionarios | BuscaDadosFuncionariosParaAtualizar] Salario: " + strconv.FormatFloat(RetornoFuncionarios.Funcsalario.Float64, 'f', 2, 64))
+
+	//Usado para converter o formato dos campos datas
+	if strings.HasPrefix(RetornoFuncionarios.Datanasc.String, "0001") {
+		RetornoFuncionarios.Datanasc.String = ""
+	} else {
+		dataNasc, _ := time.Parse("2006-01-02T15:04:05Z", RetornoFuncionarios.Datanasc.String)
+		RetornoFuncionarios.Datanasc.String = dataNasc.Format("02/01/2006")
+	}
+
+	if strings.HasPrefix(RetornoFuncionarios.Funcdatacontratacao.String, "0001") {
+		RetornoFuncionarios.Funcdatacontratacao.String = ""
+	} else {
+		datacontratacao, _ := time.Parse("2006-01-02T15:04:05Z", RetornoFuncionarios.Funcdatacontratacao.String)
+		RetornoFuncionarios.Funcdatacontratacao.String = datacontratacao.Format("02/01/2006")
+	}
+
+	if strings.HasPrefix(RetornoFuncionarios.Funcdatadispensa.String, "0001") {
+		RetornoFuncionarios.Funcdatadispensa.String = ""
+	} else {
+		datadispensa, _ := time.Parse("2006-01-02T15:04:05Z", RetornoFuncionarios.Funcdatadispensa.String)
+		RetornoFuncionarios.Funcdatadispensa.String = datadispensa.Format("02/01/2006")
+	}
+
+	c.JSON(200, RetornoFuncionarios)
+
+}
+
+//AtualizaFuncionarios : zz
+func AtualizaFuncionarios(c *gin.Context) {
+
+	var (
+		Funcionarios modelfuncionarios.STFuncionarios
+		fotoByte     *bytes.Buffer
+		// Mensagemretorno string 						 `json:"mensagemretorno"`
+		MensagemRetorno string
+		err             error
+		validate        = validator.New()
+	)
+
+	// curl -X POST http://localhost:8081/rh/upLoadFotoFuncionario \
+	// -F "foto=@/home/eajardini/pessoal/Fotos/FotoEvandro.png" \
+	// -H "Content-Type: multipart/form-data"
+	Funcionarios.Funcid, _ = strconv.Atoi(c.Request.FormValue("funcid"))
+	Funcionarios.Funcnome.String = c.Request.FormValue("nomeFunc")
+	Funcionarios.Cpf.String = c.Request.FormValue("CPFFunc")
+	Funcionarios.Rg.String = c.Request.FormValue("RGFunc")
+	Funcionarios.Cep.String = c.Request.FormValue("CEPFunc")
+	Funcionarios.Endereco.String = c.Request.FormValue("EnderFunc")
+	Funcionarios.Cidade.String = c.Request.FormValue("CidadeFunc")
+	Funcionarios.Uf.String = c.Request.FormValue("UFFunc")
+	Funcionarios.Estado.String = c.Request.FormValue("EstadoFunc")
+	Funcionarios.Datanasc.Time, _ = time.Parse("02/01/2006", c.Request.FormValue("DataNascFunc"))
+	Funcionarios.Funcdatacontratacao.Time, err = time.Parse("02/01/2006", c.Request.FormValue("DataContratacaoFunc"))
+	if err != nil {
+		MensagemRetorno = "[**[ERRO]funcionarios | AtualizaFuncionario**] Data de contratação inválida: " + err.Error()
+		log.Println(MensagemRetorno)
+		c.String(http.StatusInternalServerError, MensagemRetorno)
+		return
+
+	}
+	Funcionarios.Funcdatadispensa.Time, _ = time.Parse("02/01/2006", c.Request.FormValue("DataDispensaFunc"))
+	Funcionarios.Funcsalario.Float64, _ = strconv.ParseFloat(c.Request.FormValue("SalarioFunc"), 32)
+	log.Printf("[funcionarios | AtualizaFuncionario**] Salario ParseFloat: %v\n", Funcionarios.Funcsalario.Float64)
+	fotoFuncionario, _, errFoto := c.Request.FormFile("foto")
+	if errFoto != nil {
+		fotoByte = bytes.NewBuffer(nil)
+	} else {
+		fotoByte = bytes.NewBuffer(nil)
+		_, err := io.Copy(fotoByte, fotoFuncionario)
+		if err != nil {
+			MensagemRetorno = "[**[ERRO]funcionarios | AtualizaFuncionario**] Erro ao converter a foto para Byte: " + err.Error()
+			log.Println(MensagemRetorno)
+			c.String(http.StatusInternalServerError, MensagemRetorno)
+			return
+		}
+	}
+	Funcionarios.Foto = fotoByte.Bytes()
+
+	Funcionarios.Cpf.String = strings.ReplaceAll(Funcionarios.Cpf.String, ".", "")
+	Funcionarios.Cpf.String = strings.ReplaceAll(Funcionarios.Cpf.String, "-", "")
+	Funcionarios.Cep.String = strings.ReplaceAll(Funcionarios.Cep.String, "-", "")
+
+	//Validação de todos os campos
+	validate = validator.New()
+	err = validate.Struct(Funcionarios)
+	if err != nil {
+		MensagemRetorno = "[**[ERRO]funcionarios | AtualizaFuncionario**] Erro ao validar todos os dados: " + err.Error()
+		log.Println(MensagemRetorno)
+		c.String(http.StatusInternalServerError, MensagemRetorno)
+		return
+	}
+
+	bd.AbreConexao()
+	defer bd.FechaConexao()
+
+	tx := bd.BD.MustBegin()
+
+	sql := `
+				update rh_funcionarios
+				set cpf = $2,
+						rg =  $3,
+						funcnome = $4,
+						datanasc = $5,
+						funcdatacontratacao = $6,
+						funcdatadispensa = $7,
+						foto = $8,
+						funcsalario = $9,
+						cep = $10,
+						endereco = $11,
+						cidade = $12,
+						uf = $13,
+						estado = $14
+				where funcid = $1	
+			`
+
+	_, err = tx.Exec(sql, Funcionarios.Funcid, Funcionarios.Cpf.String, Funcionarios.Rg.String,
+		Funcionarios.Funcnome.String, Funcionarios.Datanasc.Time.Format("02/01/2006"),
+		Funcionarios.Funcdatacontratacao.Time.Format("02/01/2006"), Funcionarios.Funcdatadispensa.Time.Format("02/01/2006"),
+		Funcionarios.Foto, Funcionarios.Funcsalario.Float64, Funcionarios.Cep.String, Funcionarios.Endereco.String,
+		Funcionarios.Cidade.String, Funcionarios.Uf.String, Funcionarios.Estado.String)
+
+	if err != nil {
+		MensagemRetorno = "Erro ao atualizar os dados dos funcionário no BD:" + err.Error()
+		log.Println(MensagemRetorno)
+		c.String(http.StatusInternalServerError, MensagemRetorno)
+		return
+	}
+
+	err = tx.Commit()
+
+	if err != nil {
+		MensagemRetorno = "Erro ao fechar transação na atualização funcionário:" + err.Error()
+		log.Println(MensagemRetorno)
+		c.String(http.StatusInternalServerError, MensagemRetorno)
+		return
+	}
+	MensagemRetorno = "Funcionário atualizado com sucesso!"
+	log.Println(MensagemRetorno)
 	c.String(http.StatusOK, MensagemRetorno)
 }

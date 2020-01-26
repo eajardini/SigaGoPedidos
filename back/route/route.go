@@ -52,6 +52,8 @@ func IniciaServidor() {
 	{
 		rh.GET("/listaTodosFuncionarios", funcionarios.ListaTodosFuncionarios)
 		rh.GET("/retornafotofuncionario/:idFuncionario", funcionarios.RetornaFotoFuncionario)
+		rh.POST("/atualizaFuncionarios", funcionarios.AtualizaFuncionarios)
+		rh.POST("/buscaDadosFuncionariosParaAtualizar", funcionarios.BuscaDadosFuncionariosParaAtualizar)
 		rh.POST("/upLoadFotoFuncionario", funcionarios.UPLoadFotoFuncionario)
 		rh.POST("/cadastroFuncionario", funcionarios.CadastroFuncionario)
 

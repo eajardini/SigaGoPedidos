@@ -1,21 +1,41 @@
 package modelfuncionarios
 
-import "database/sql"
+import (
+	"database/sql"
+)
 
 //STFuncionarios : zz
 type STFuncionarios struct {
 	Funcid              int             `json:"funcid"`
-	Cpf                 sql.NullString  `json:"cpf"`
-	Rg                  sql.NullString  `json:"rg"`
-	Funcnome            sql.NullString  `json:"funcnome"`
-	Datanasc            sql.NullTime    `json:"datanasc"`
-	Funcdatacontratacao sql.NullTime    `json:"funcdatacontratacao"`
-	Funcdatadispensa    sql.NullTime    `json:"funcdatadispensa"`
-	Cep                 sql.NullString  `json:"cep"`
-	Endereco            sql.NullString  `json:"endereco"`
-	Cidade              sql.NullString  `json:"cidade"`
-	Uf                  sql.NullString  `json:"uf"`
-	Estado              sql.NullString  `json:"estado"`
-	Funcsalario         sql.NullFloat64 `json:"funcsalario"`
-	foto                sql.RawBytes
+	Cpf                 sql.NullString  `json:"CPFFunc" validate:"required"`
+	Rg                  sql.NullString  `json:"RGFunc"`
+	Funcnome            sql.NullString  `json:"nomeFunc" validate:"required"`
+	Datanasc            sql.NullTime    `json:"DataNascFunc"`
+	Funcdatacontratacao sql.NullTime    `json:"DataContratacaoFunc" validate:"required"`
+	Funcdatadispensa    sql.NullTime    `json:"DataDispensaFunc"`
+	Foto                []byte          `json:"fotoFuncionario"`
+	Funcsalario         sql.NullFloat64 `json:"money"`
+	Cep                 sql.NullString  `json:"CEPFunc"`
+	Endereco            sql.NullString  `json:"EnderFunc"`
+	Cidade              sql.NullString  `json:"CidadeFunc"`
+	Uf                  sql.NullString  `json:"UFFunc"`
+	Estado              sql.NullString  `json:"EstadoFunc"`
+}
+
+//STFuncionariosParaRetorno : zz
+type STFuncionariosParaRetorno struct {
+	Funcid              int             `json:"funcid"`
+	Cpf                 sql.NullString  `json:"CPFFunc" validate:"required"`
+	Rg                  sql.NullString  `json:"RGFunc"`
+	Funcnome            sql.NullString  `json:"nomeFunc"`
+	Datanasc            sql.NullString  `json:"DataNascFunc"`
+	Funcdatacontratacao sql.NullString  `json:"DataContratacaoFunc"`
+	Funcdatadispensa    sql.NullString  `json:"DataDispensaFunc"`
+	Foto                []byte          `json:"fotoFuncionario"`
+	Funcsalario         sql.NullFloat64 `json:"money"`
+	Cep                 sql.NullString  `json:"CEPFunc"`
+	Endereco            sql.NullString  `json:"EnderFunc"`
+	Cidade              sql.NullString  `json:"CidadeFunc"`
+	Uf                  sql.NullString  `json:"UFFunc"`
+	Estado              sql.NullString  `json:"EstadoFunc"`
 }
