@@ -175,4 +175,25 @@ ALTER TABLE IF EXISTS rh_funcionarios ADD IF NOT EXISTS cidade   varchar(30);
 ALTER TABLE IF EXISTS rh_funcionarios ADD IF NOT EXISTS uf       char(2);
 ALTER TABLE IF EXISTS rh_funcionarios ADD IF NOT EXISTS estado   varchar(15);
 
+
+--28/01/2020
+ALTER TABLE IF EXISTS rh_funcionarios DROP IF EXISTS foto;
+
+--drop sequence if exists seq_rhFotoFuncionarios;
+create SEQUENCE if not EXISTS seq_rhFotoFuncionarios;
+--drop table rh_FotoFuncionarios;
+CREATE TABLE if not EXISTS rh_FotoFuncionarios (
+    fotoFuncID    INTEGER NOT NULL,
+    foto                 BYTEA   ,
+    funcid               INTEGER NOT NULL    
+);
+
+ALTER TABLE IF EXISTS rh_FotoFuncionarios DROP CONSTRAINT IF EXISTS pk_rh_FotoFuncionarios CASCADE;
+ALTER TABLE IF EXISTS rh_FotoFuncionarios ADD CONSTRAINT pk_rh_FotoFuncionarios PRIMARY KEY ( fotoFuncID );
+
+ALTER TABLE IF EXISTS rh_FotoFuncionarios
+    ADD CONSTRAINT fk_rh_FotoFunci_rh_Funcionarios FOREIGN KEY ( funcid )
+        REFERENCES rh_funcionarios;
+
+
 commit;

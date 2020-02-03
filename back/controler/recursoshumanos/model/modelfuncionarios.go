@@ -2,6 +2,7 @@ package modelfuncionarios
 
 import (
 	"database/sql"
+	"time"
 )
 
 //STFuncionarios : zz
@@ -10,9 +11,9 @@ type STFuncionarios struct {
 	Cpf                 sql.NullString  `json:"CPFFunc" validate:"required"`
 	Rg                  sql.NullString  `json:"RGFunc"`
 	Funcnome            sql.NullString  `json:"nomeFunc" validate:"required"`
-	Datanasc            sql.NullTime    `json:"DataNascFunc"`
-	Funcdatacontratacao sql.NullTime    `json:"DataContratacaoFunc" validate:"required"`
-	Funcdatadispensa    sql.NullTime    `json:"DataDispensaFunc"`
+	Datanasc            time.Time       `json:"DataNascFunc"`
+	Funcdatacontratacao time.Time       `json:"DataContratacaoFunc" validate:"required"`
+	Funcdatadispensa    time.Time       `json:"DataDispensaFunc"`
 	Foto                []byte          `json:"fotoFuncionario"`
 	Funcsalario         sql.NullFloat64 `json:"money"`
 	Cep                 sql.NullString  `json:"CEPFunc"`

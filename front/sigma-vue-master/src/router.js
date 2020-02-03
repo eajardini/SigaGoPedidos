@@ -3,6 +3,7 @@ import Router from 'vue-router';
 import Dashboard from './components/Dashboard.vue';
 import CadastroDeFuncionarios from './components/recursoshumanos/CadastroDeFuncionarios.vue';
 import AtualizacaoDeFuncionarios from './components/recursoshumanos/AtualizacaoDeFuncionarios.vue';
+import RelatorioDeFuncionarios from './components/recursoshumanos/RelatorioDeFuncionario.vue';
 // import ConfiguraMenu from './components/ConfiguraMenu';
 
 
@@ -39,6 +40,12 @@ export default new Router({
 			path: '/atualizacaodefuncionario',
 			name: 'atualizacaodefuncionario',
 			component: AtualizacaoDeFuncionarios
+			// component: () => import('./components/recursoshumanos/CadastroDeFuncionarios.vue') 		
+		},
+		{
+			path: '/relatoriofuncionario',
+			name: 'Relatorio de Funcionario',
+			component: RelatorioDeFuncionarios
 			// component: () => import('./components/recursoshumanos/CadastroDeFuncionarios.vue') 		
 		},
 

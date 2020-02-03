@@ -66,7 +66,7 @@
                     <div class="p-col-12 p-md-4">
                       <img witdh="100px" height="100px" v-bind:src="fotoFuncionario" />
                       <br />
-                      <input @change="onFileChanged" type="file" id="selectedFile" style="display: none;" />
+                      <input @change="EscolhiFoto" type="file" id="selectedFile" style="display: none;" />
                       <input
                         type="button"
                         value="Escolha uma foto"
@@ -217,12 +217,13 @@ export default {
           this.MensagemDoServidor = response.data;
           this.HeaderMensagemDoServidor = "Sucesso";
           this.displayMensagem = true;
-          this.limpaFormulario();
+          
         })
         .catch(error => {
           this.HeaderMensagemDoServidor = "Atenção!";
           this.MensagemDoServidor =
-            "Problema ao cadastrar o funcionário: " + error.data;
+            "Problema ao cadastrar o funcionário: " + error.response.data;
+           
           this.displayMensagem = true;
         });
     },
@@ -231,6 +232,7 @@ export default {
     },
     fechaMensagem() {
       this.displayMensagem = false;
+      this.limpaFormulario();
     },
     limpaFormulario() {
      
@@ -244,21 +246,12 @@ export default {
         (this.EstadoFunc = null),
         (this.fotoFuncionario = ""),
         (this.SalarioFunc = 0),
-        // (this.money = 0),
-        // (this.money = {
-        //   decimal: ",",
-        //   thousands: ".",
-        //   prefix: "",
-        //   suffix: "",
-        //   precision: 2,
-        //   masked: false
-        // }),
         (this.DataNascFunc = ""),
         (this.DataContratacaoFunc = ""),
         (this.DataDispensaFunc = "");
         this.active = [true, false];
     },
-    onFileChanged(event) {
+    EscolhiFoto(event) {
       this.selectedFile = event.target.files[0];
       this.onUpload();
     },

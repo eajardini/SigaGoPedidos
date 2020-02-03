@@ -61,7 +61,7 @@
               <div class="p-col-12 p-md-4">
                 <img witdh="100px" height="100px" v-bind:src="fotoFuncionario" />
                 <br />
-                <input @change="onFileChanged" type="file" id="selectedFile" style="display: none;" />
+                <input @change="EscolhiFoto" type="file" id="selectedFile" style="display: none;" />
                 <input
                   type="button"
                   value="Escolha uma foto"
@@ -154,7 +154,8 @@ export default {
       CidadeFunc: null,
       UFFunc: null,
       EstadoFunc: null,
-      fotoFuncionario: "",
+      fotoFuncionario: null,
+      fotoFuncionarioParaAtualizar: null, //necessario pois a variav. fotoFuncionario contem a foto + as palavras image/jpg;base64,
       DataNascFunc:         null,
       DataContratacaoFunc:  null,
       DataDispensaFunc:     null,
@@ -185,6 +186,8 @@ export default {
     },
     fechaMensagem(){
       this.displayMensagem = false;
+      this.$router.push("/manutencaodefuncionario");
+
     },
     atribuiDadosAoFormulario(parFuncionario) {
       // console.log("[atribuiDadosAoFormulario] Valor do parFuncionário:" + parFuncionario);
@@ -199,8 +202,10 @@ export default {
         (this.DataNascFunc = parFuncionario.DataNascFunc.String),
         (this.DataContratacaoFunc = parFuncionario.DataContratacaoFunc.String ),
         (this.DataDispensaFunc = parFuncionario.DataDispensaFunc.String),
-        (this.fotoFuncionario = parFuncionario.fotoFuncionario),       
-        (this.SalarioFunc = parFuncionario.money.Float64);       
+        (this.fotoFuncionario = this.mostraFotoFuncionarioNoForm(parFuncionario.fotoFuncionario)),  
+        (this.fotoFuncionarioParaAtualizar = parFuncionario.fotoFuncionario),
+        (this.SalarioFunc = parFuncionario.money.Float64);   
+        console.log("parFuncionario.fotoFuncionario:" + parFuncionario.fotoFuncionario)    ;
 
     },
     salvarDados() {
@@ -214,12 +219,17 @@ export default {
       formData.append("CidadeFunc", this.CidadeFunc);
       formData.append("UFFunc", this.UFFunc);
       formData.append("EstadoFunc", this.EstadoFunc);
-      formData.append("fotoFuncionario", this.fotoFuncionario);
       formData.append("DataNascFunc", this.DataNascFunc);
       formData.append("DataContratacaoFunc", this.DataContratacaoFunc);
       formData.append("DataDispensaFunc", this.DataDispensaFunc);
-      formData.append("SalarioFunc", this.SalarioFunc);
-      formData.append("foto", this.selectedFile);
+      formData.append("SalarioFunc", this.SalarioFunc);          
+      if (this.selectedFile !=null) {
+        console.log("this.selectedFile:" + this.selectedFile);
+         formData.append("foto", this.selectedFile); 
+      } else {
+        console.log("fotoFuncionarioParaAtualizar:" + this.fotoFuncionarioParaAtualizar);
+         formData.append("foto", this.fotoFuncionarioParaAtualizar);
+      }
 
       this.$http
         .post("/rh/atualizaFuncionarios", formData)
@@ -232,7 +242,7 @@ export default {
         .catch(error => {
           this.HeaderMensagemDoServidor = "Atenção!";
           this.MensagemDoServidor =
-            "Problema ao atualizar o funcionário: " + error.data;
+            "Problema ao atualizar o funcionário: " + error.response.data;
           this.displayMensagem = true;
         });
     },
@@ -252,7 +262,7 @@ export default {
           this.displayMensagem = true;
         });
     },
-    onFileChanged(event) {
+    EscolhiFoto(event) {
       this.selectedFile = event.target.files[0];
       this.onUpload();
     },
@@ -270,8 +280,13 @@ export default {
             this.fotoFuncionario = reader.result;
           };
         });
-
     },
+
+    mostraFotoFuncionarioNoForm(foto){       
+      return "data:image/jpg;base64, " + foto;
+      // return this.$httpBaseURL + '/rh/retornafotofuncionario/' + idFuncionario
+    },
+
     previewFiles() {
       this.files = this.$refs.myFiles.files;
     }

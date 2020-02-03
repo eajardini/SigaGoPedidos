@@ -32,7 +32,7 @@
               />  -->
               <!-- https://stackoverflow.com/questions/30129486/set-img-src-from-byte-array -->
               <img             
-              :src= "mostraFotoNoGrid2(slotProps)"
+              :src= "mostraFotoNoGrid(slotProps)"
               width="64px"
               />
 
@@ -140,36 +140,15 @@ export default {
     fechaMensagem(){
       this.displayMensagem = false;
     },
-    mostraFotoNoGrid(idFuncionario){
-      
-      // const formData = new FormData();
-      // formData.append("foto", this.selectedFile, this.selectedFile.name); Retirei o último parametro, se der pau, volto ele
-      // console.log("Valor ID:", idFuncionario)
-      // console.log("BaseUrl foto:", this.$httpBaseURL)
-      
+    mostraFotoNoGrid(foto){ 
+        
+      return "data:image/jpg;base64, " + foto.data.foto;
 
-      return this.$httpBaseURL + '/rh/retornafotofuncionario/' + idFuncionario
-      // formData.append("foto", idfuncionario);
-      // this.$http
-      //   .post("/rh/retornafotofuncionario", formData, { responseType: "blob" })
-      //   .then(res => {
-      //     let reader = new FileReader();
-      //     reader.readAsDataURL(res.data);
-      //     reader.onload = () => {
-      //       this.fotoGrid = reader.result;
-      //     };
-      //   });
-      //return this.fotoGrid;
+      // return this.$httpBaseURL + '/rh/retornafotofuncionario/' + idFuncionario
+
     },
     mostraFotoNoGrid2(foto){
-      
-      
-      // console.log("Foto:", foto.data.foto)      
-      
-
       return "data:image/jpg;base64, " + foto.data.foto;
-      //  return this.$refs.cropper.replace(foto.data.foto);
-      
     }
   },
   created() {

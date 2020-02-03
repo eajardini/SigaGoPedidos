@@ -1,0 +1,70 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="2402AE62-A3EE-5A79-634E-35592BC94AB9" name="rh_FotoFuncionarios">
+<createdBy>eajardini</createdBy>
+<createdTime>2020-01-30 17:25:34 UTC</createdTime>
+<ownerDesignName>sigagopedidos</ownerDesignName>
+<ordsAlias>table_7</ordsAlias>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="fotoFuncionarioID" id="86D14BB9-BF55-9A6D-1A01-BA983286C409">
+<createdBy>eajardini</createdBy>
+<createdTime>2020-01-30 17:27:16 UTC</createdTime>
+<ownerDesignName>sigagopedidos</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>615899B1-3993-F66A-8F2B-26ADADE18652</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="foto" id="728D12A0-13D3-086F-86CF-59EF17000871">
+<createdBy>eajardini</createdBy>
+<createdTime>2020-01-30 17:27:50 UTC</createdTime>
+<ownerDesignName>sigagopedidos</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT029</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="funcID" id="6681103D-71F2-CE7A-6E53-BA486E5E52B4">
+<createdBy>eajardini</createdBy>
+<createdTime>2020-01-30 17:28:17 UTC</createdTime>
+<ownerDesignName>sigagopedidos</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>615899B1-3993-F66A-8F2B-26ADADE18652</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="DB5DCAFB-6F77-7052-0507-1CFF6776746F" referredColumn="D1F88886-35E6-AD6D-D738-D568660E73E5"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="2FBE3C4B-963F-2AFF-ECFB-8BF8D82B4065" name="PK_rh_FotoFuncionarios">
+<createdBy>eajardini</createdBy>
+<createdTime>2020-01-30 17:27:16 UTC</createdTime>
+<ownerDesignName>sigagopedidos</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="86D14BB9-BF55-9A6D-1A01-BA983286C409"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="9A82C033-0B4A-476C-9E7D-98CB6E77B9E8" name="FK_rh_FotoFuncionarios_rh_funcionarios">
+<createdBy>eajardini</createdBy>
+<createdTime>2020-01-30 17:28:17 UTC</createdTime>
+<ownerDesignName>sigagopedidos</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="6681103D-71F2-CE7A-6E53-BA486E5E52B4"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>
