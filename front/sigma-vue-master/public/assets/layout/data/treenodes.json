@@ -8,8 +8,14 @@
 			"children": [
 				{
 					"key": "0-0",
-					"label": "F001-Salários",
+					"label": "F010-Salários",
 					"data": "Salarios",
+					"icon": ""
+				},
+				{
+					"key": "0-1",
+					"label": "F011-Documentos",
+					"data": "Documentos",
 					"icon": ""
 				}
 			]

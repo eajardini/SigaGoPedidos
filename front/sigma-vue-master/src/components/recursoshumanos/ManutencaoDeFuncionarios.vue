@@ -112,24 +112,19 @@ export default {
       // this.$router.
       this.$router.push("/cadastrodefuncionario");
     },
-    onRowSelect(event) {
-            console.log("evento:", event.data.funcid.String)
+    onRowSelect() {
+            
             
         },
     alteraDadosDeFuncionarios() {
     
       if (this.selectedFuncionarios1 != null) {
           var idFuncionario = this.selectedFuncionarios1.funcid.String;
-
-     
-          // console.log("idFuncionario:", this.selectedFuncionarios1.funcid.String)
-
+       
           localStorage.setItem('storeIdFuncionario', JSON.stringify(idFuncionario));
 
           this.$router.push("/atualizacaodefuncionario");
-      } else {
-         console.log("Funcionário não selecionado", "Favor selecionar um Fucnionário!")
-        //  alert("Funcionário não selecionado", "Favor selecionar um Fucnionário!")
+      } else {       
           this.HeaderMensagemDoServidor = "Atenção!"
           this.MensagemDoServidor = "Funcionário não selecionado, favor selecionar um Funcionário";
           this.displayMensagem = true;
@@ -162,8 +157,7 @@ export default {
 
     // Busca todos os funcionários cadastrados e ativos
     this.$http.get("/rh/listaTodosFuncionarios").then(res => {
-      this.funcionarios = res.data.resposta;
-      // console.log("Foto:" + this.funcionarios)
+      this.funcionarios = res.data.resposta;    
     });
     
   }

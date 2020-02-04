@@ -7,10 +7,10 @@ import axios from 'axios'
 Vue.use({
   install(Vue) {
     // Vue.prototype.$http = axios  
-    Vue.prototype.$httpBaseURL = process.env.NODE_ENV === 'production' ? 'http://localhost:8081' : 'http://localhost:8081'
+    Vue.prototype.$httpBaseURL = process.env.NODE_ENV === 'production' ? 'http://167.114.124.28:8081' : 'http://localhost:8081'
 
     Vue.prototype.$http = axios.create({
-      baseURL: process.env.NODE_ENV === 'production' ? 'http://localhost:8081' : 'http://localhost:8081',
+      baseURL: process.env.NODE_ENV === 'production' ? 'http://167.114.124.28:8081' : 'http://localhost:8081',
       
     })   
 
