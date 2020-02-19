@@ -107,9 +107,6 @@ func RetornaEstruturaDoMenu() (menulocal []modelmenu.ItemsNivel1) {
 
 	menulocal = MontaEstruturaDoMenu()
 
-	//itemsDoMenu := `[{"label":"Finanças","items":[{"label":"Contas a Pagar","items":[{"label":"Manutenção"}]}]},{"label":"CRM","items":null}]`
-	//json.Unmarshal([]byte(itemsDoMenu), &menulocal)
-
 	return menulocal
 }
 

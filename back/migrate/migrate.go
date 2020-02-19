@@ -110,7 +110,3 @@ func main() {
 	bd.FechaConexao()
 
 }
-
-// porta 1,20 x 2,085
-// bandeira 1,20 x 0,765
-// Guarnição 0,12 cm

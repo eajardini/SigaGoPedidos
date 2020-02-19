@@ -5,6 +5,7 @@ import (
 	menu "github.com/eajardini/SigaGoPedidos/back/controler/menu"
 	funcionarios "github.com/eajardini/SigaGoPedidos/back/controler/recursoshumanos"
 	usuarios "github.com/eajardini/SigaGoPedidos/back/controler/usuarios"
+
 	//	cliente "eajardini/gin/gocrud/controler/cliente"
 
 	"github.com/gin-contrib/sessions"
@@ -57,22 +58,7 @@ func IniciaServidor() {
 		rh.POST("/upLoadFotoFuncionario", funcionarios.UPLoadFotoFuncionario)
 		rh.POST("/cadastroFuncionario", funcionarios.CadastroFuncionario)
 
-		// rh.GET("/selecionatodos", cliente.SelecionaTodosOsCliente)
-		// rh.GET("/selecionaclientepornome", cliente.SelecionaClientePorNome)
-		// rh.POST("/insere", cliente.InsereCliente)
-		// rh.PUT("/atualizacliente", cliente.AtualizaCliente)
-		// rh.DELETE("/apagacliente", cliente.ApagaCliente)
 	}
-
-	// cli := r.Group("/cliente")
-	// {
-	// 	cli.GET("", cliente.OlaCliente)
-	// 	cli.GET("/selecionatodos", cliente.SelecionaTodosOsCliente)
-	// 	cli.GET("/selecionaclientepornome", cliente.SelecionaClientePorNome)
-	// 	cli.POST("/insere", cliente.InsereCliente)
-	// 	cli.PUT("/atualizacliente", cliente.AtualizaCliente)
-	// 	cli.DELETE("/apagacliente", cliente.ApagaCliente)
-	// }
 
 	r.Run(":8081") // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
 }

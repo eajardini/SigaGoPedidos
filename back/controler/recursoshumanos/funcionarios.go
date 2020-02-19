@@ -29,15 +29,6 @@ func selecionaTodosFuncionarios() []modelfuncionarios.STFuncionarios {
 	bd.AbreConexao()
 	defer bd.FechaConexao()
 
-	// sql := `
-	// SELECT Funcid,  Cpf, Rg, Funcnome, to_char(Datanasc, 'DD/MM/YYYY') Datanasc,
-	// 		 to_char(Funcdatacontratacao, 'DD/MM/YYYY') Funcdatacontratacao,
-	//      CASE WHEN  Funcdatadispensa isnull THEN '-'
-	//           ELSE to_char(Funcdatadispensa, 'DD/MM/YYYY')
-	//       END AS Funcdatadispensa
-	// from rh_funcionarios
-	// `
-
 	sql := `
 	SELECT Funcid,  Cpf, Rg, Funcnome, 
 	CASE WHEN  Datanasc = '01/01/0001' THEN null ELSE to_char(Datanasc, 'DD/MM/YYYY') end Datanasc ,
@@ -134,11 +125,6 @@ func RetornaFotoFuncionario(c *gin.Context) {
 		c.String(http.StatusInternalServerError, "Erro ao encotrar a foto do Funcionario: "+err.Error())
 		return
 	}
-
-	// buf := bytes.NewBuffer(nil)
-	// if _, err := io.Copy(buf, retornoFuncionarios.Foto); err != nil {
-	// 	log.Println("[funcionarios | UPLoadFotoFuncionario] ", "Erro ao converter a Foto do funcionário: "+err.Error())
-	// }
 
 	c.Data(http.StatusOK, "image/jpeg", retornoFuncionarios.Foto) // buf.Bytes())
 
